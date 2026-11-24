@@ -6,7 +6,7 @@
 <title>Happy Birthday, Mom</title>
 <meta name="description" content="A birthday card for Mindy Orozco, with love from Myles.">
 <meta name="theme-color" content="#ffe27a">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg fill='%23ffcb2f' stroke='%234a2c17' stroke-width='3'%3E%3Ccircle cx='32' cy='12' r='9'/%3E%3Ccircle cx='52' cy='32' r='9'/%3E%3Ccircle cx='32' cy='52' r='9'/%3E%3Ccircle cx='12' cy='32' r='9'/%3E%3Ccircle cx='46' cy='18' r='9'/%3E%3Ccircle cx='46' cy='46' r='9'/%3E%3Ccircle cx='18' cy='46' r='9'/%3E%3Ccircle cx='18' cy='18' r='9'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='13' fill='%236b3e1c' stroke='%234a2c17' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 56S6 40 6 22a13 13 0 0 1 26-4 13 13 0 0 1 26 4c0 18-26 34-26 34z' fill='%23ffd447' stroke='%234a2c17' stroke-width='4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700;800&family=Young+Serif&display=swap" rel="stylesheet">
@@ -199,7 +199,11 @@
     content: ""; position: absolute; inset: 10px;
     border: 2px dashed rgba(74,44,23,.35); border-radius: 12px; pointer-events: none;
   }
-  .face.front .cover-flower { width: min(78%, 300px); margin: -4px auto 4px; }
+  .face.front .cover-flower { width: 104px; margin: 0 auto 14px; }
+  .face.front .eyebrow {
+    font: 700 .78rem/1 var(--sans); letter-spacing: .16em; text-transform: uppercase;
+    color: var(--ink-soft); margin: 0 0 16px;
+  }
   .cover-flower .sway { transform-origin: 0 0; animation: sway 6s ease-in-out infinite; }
   .face.front h2 { font-size: clamp(2rem, 9vw, 2.8rem); }
   .face.front .name {
@@ -224,7 +228,12 @@
   @keyframes sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
   @keyframes nudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
-  /* ---------- Photos, tucked in throughout ---------- */
+  /* ---------- 2. Photos ---------- */
+  .photo-grid {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px;
+    padding: 8px 4px 4px;
+  }
+  @media (min-width: 700px) { .photo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 20px; } }
   .snap {
     display: block; width: 100%; padding: 8px 8px 0; text-align: center;
     background: #fff; border: 2px solid var(--ink); border-radius: 4px;
@@ -232,25 +241,17 @@
     transform: rotate(var(--tilt, -2deg)); transition: transform .25s ease;
     position: relative;
   }
-  .snap:hover { transform: rotate(0deg) scale(1.02); z-index: 2; }
+  .snap:hover { transform: rotate(0deg) scale(1.03); z-index: 2; }
   .snap img {
-    width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: var(--pos, center);
+    display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
     border: 2px solid var(--ink); background: var(--butter-soft);
   }
-  .snap.tall img { aspect-ratio: 4 / 5; }
-  .snap .cap { display: block; font: 700 1.25rem/1.15 var(--hand); padding: .45rem .2rem .55rem; }
+  .snap .cap { display: block; font: 700 1.25rem/1.15 var(--hand); padding: .5rem .2rem .6rem; min-height: 2.6em; }
   .snap::after {
     content: ""; position: absolute; top: -10px; left: 50%; width: 62px; height: 20px;
     transform: translateX(-50%) rotate(-3deg);
     background: rgba(255,212,71,.75); border: 1px solid rgba(74,44,23,.25);
   }
-  .snap-solo { max-width: 290px; margin: 26px auto 6px; }
-  .snap-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 560px; margin: 24px auto 4px; padding: 0 4px; }
-  .face.inside .snap { max-width: 230px; margin: 4px auto 18px; }
-  .pup .snap { max-width: 170px; margin-top: 18px; }
-  .given-list li .snap { max-width: 250px; margin: 16px auto 6px; }
-  .letter-photo { max-width: 240px; margin: 22px auto -34px; position: relative; z-index: 3; }
-  .letter-photo:hover { z-index: 3; }
 
   dialog.lightbox {
     border: var(--line) solid var(--ink); border-radius: 14px; padding: 14px 14px 10px;
@@ -263,8 +264,13 @@
   .lightbox .lb-bar { display: flex; justify-content: space-between; gap: 8px; }
 
   /* ---------- 3. Why You're the Best ---------- */
-  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 18px; }
-  @media (min-width: 640px) { .why-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+  .why-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 18px; }
+  .why-grid .flip { flex: 0 0 calc(50% - 7px); max-width: calc(50% - 7px); }
+  .why-grid .flip:last-child:nth-child(odd) { flex-basis: 100%; max-width: 100%; min-height: 150px; }
+  @media (min-width: 640px) {
+    .why-grid { gap: 18px; }
+    .why-grid .flip, .why-grid .flip:last-child:nth-child(odd) { flex-basis: calc((100% - 36px) / 3); max-width: calc((100% - 36px) / 3); }
+  }
   .flip {
     perspective: 1000px; background: none; border: 0; padding: 0; text-align: center;
     min-height: 200px; display: grid; border-radius: 16px;
@@ -285,11 +291,7 @@
   .flip .side.f { background: var(--butter); }
   .flip:nth-child(2n) .side.f { background: var(--butter-soft); }
   .flip:nth-child(3n) .side.f { background: var(--peach); }
-  .flip .side.b { background: var(--paper); transform: rotateY(180deg); font: 600 .92rem/1.38 var(--sans); padding: 10px 10px 14px; justify-content: flex-start; }
-  .flip .side.b img {
-    width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: var(--pos, center);
-    border: 2px solid var(--ink); border-radius: 8px; flex: none;
-  }
+  .flip .side.b { background: var(--paper); transform: rotateY(180deg); font: 600 1rem/1.45 var(--sans); padding: 16px 14px; }
   .flip .side svg { width: 52px; height: 52px; }
   .flip .t { font: 400 1.12rem/1.2 var(--serif); }
   .flip .tap { font: 700 1.05rem/1 var(--hand); color: var(--ink-soft); }
@@ -430,6 +432,32 @@
     font: 700 1.55rem/1.25 var(--hand); margin: 18px 0 0; padding: 12px 16px;
     background: var(--butter-soft); border-left: 5px solid var(--butter-deep); border-radius: 0 12px 12px 0;
   }
+  .copilot {
+    display: inline-block; margin: 16px 0 0; padding: .6rem 1rem;
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 14px;
+    box-shadow: 2px 2px 0 var(--ink); font: 500 .98rem/1.4 var(--sans);
+  }
+  .ride-extras { display: grid; gap: 18px; margin-top: 18px; }
+  @media (min-width: 640px) { .ride-extras { grid-template-columns: 1.25fr 1fr; align-items: start; } }
+  .spec {
+    background: var(--paper); border: var(--line) solid var(--ink); border-radius: 14px;
+    box-shadow: var(--shadow-sm); padding: 14px 16px 10px; min-width: 0;
+  }
+  .spec h3 { font-size: 1.3rem; margin-bottom: .55rem; }
+  .spec dl { margin: 0; display: grid; grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr); }
+  .spec dt, .spec dd { padding: .5rem 0; border-top: 2px dashed rgba(74,44,23,.25); }
+  .spec dt {
+    font: 700 .74rem/1.45 var(--sans); letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-soft); padding-right: .75rem; padding-top: .62rem;
+  }
+  .spec dd { margin: 0; font-weight: 600; }
+  .review {
+    margin: 0; background: var(--butter); border: var(--line) solid var(--ink); border-radius: 14px;
+    box-shadow: var(--shadow-sm); padding: 14px 16px; transform: rotate(1.2deg);
+  }
+  .review .stars { margin: 0; font-size: 1.4rem; letter-spacing: .12em; color: var(--ink); }
+  .review blockquote { margin: .35rem 0 .6rem; font: 400 1.3rem/1.3 var(--serif); }
+  .review figcaption { font: 700 1.25rem/1.2 var(--hand); color: var(--ink-soft); }
   .status { font-weight: 600; color: var(--ink-soft); min-height: 1.6em; margin: 10px 0 0; }
 
   /* ---------- 8. Dinner Tonight ---------- */
@@ -566,16 +594,16 @@
       <div class="card-stage">
         <div class="greeting" id="greeting">
           <div class="face front">
+            <p class="eyebrow">November 24</p>
             <svg class="cover-flower" id="coverFlower" viewBox="-110 -110 220 250" aria-hidden="true"></svg>
             <h2>Happy Birthday, Mom</h2>
             <p class="name">Mindy Orozco</p>
             <span class="hint" aria-hidden="true">Tap to open</span>
           </div>
           <div class="face inside" id="cardInside">
-            <button type="button" class="snap" style="--tilt:-3deg" aria-label="View photo: Fall days with you"><img src="photos/fall-selfie.jpg" alt="Myles and Mom smiling together under fall trees" loading="lazy"><span class="cap">Fall days with you</span></button>
             <p class="salute">Mom,</p>
-            <p>Happy birthday to the person who always shows up: with lunch, with help, with a hug, and with so much love for every single thing I make.</p>
-            <p>Today is all about you. I hope it feels as warm as you make every day feel for all of us.</p>
+            <p>Happy birthday to the hardest-working person I know, and the first person I call when I need help.</p>
+            <p>You give so much of yourself to all of us. Today is your day to be celebrated for every bit of it.</p>
             <p>There's more tucked inside. Flip through the tabs up top whenever you like, today or any day.</p>
             <p class="sign">Love you always,<br>Myles</p>
           </div>
@@ -584,6 +612,14 @@
       <div class="row center card-actions">
         <button class="btn" id="openCard" type="button" aria-pressed="false">Open the card</button>
       </div>
+    </section>
+
+    <!-- 2. PHOTOS (the tab hides itself if there are no photos) -->
+    <section class="panel" id="p-photos" role="tabpanel" aria-labelledby="t-photos" data-title="Photos" hidden>
+      <p class="kicker">a few favorites</p>
+      <h2>Photos</h2>
+      <p class="lede">Some of my favorite days with you. Tap any photo to see it up close.</p>
+      <div class="photo-grid" id="photoGrid"></div>
     </section>
 
     <!-- 3. WHY YOU'RE THE BEST -->
@@ -655,12 +691,10 @@
         <div class="pup">
           <p class="bubble" id="bubbleBrown" aria-live="polite">Happy birthday! We love you so much.</p>
           <button class="dog-btn" type="button" id="dogBrown" aria-label="Pet the brown pup" data-dog="brown"></button>
-          <button type="button" class="snap" style="--tilt:-3deg" aria-label="View photo: Waiting for you"><img src="photos/brown-pup.jpg" alt="The brown pup looking up from the carpet" loading="lazy"><span class="cap">Waiting for you</span></button>
         </div>
         <div class="pup">
           <p class="bubble" id="bubbleBlack" aria-live="polite">You're our favorite person in the world.</p>
           <button class="dog-btn" type="button" id="dogBlack" aria-label="Pet the black pup" data-dog="black"></button>
-          <button type="button" class="snap" style="--tilt:2.5deg;--pos:center 30%" aria-label="View photo: Riding along"><img src="photos/black-pup.jpg" alt="The black pup riding along in the car" loading="lazy"><span class="cap">Riding along</span></button>
         </div>
       </div>
       <div class="row">
@@ -670,7 +704,6 @@
         </button>
         <span class="pill" aria-live="polite"><b id="treatCount">0</b> treats given</span>
       </div>
-      <div class="snap-solo"><button type="button" class="snap tall" style="--tilt:-1.5deg;--pos:center 60%" aria-label="View photo: Your two shadows"><img src="photos/pups-stairs.jpg" alt="Both pups on the stairs at home" loading="lazy"><span class="cap">Your two shadows</span></button></div>
     </section>
 
     <!-- 6. MAKE A WISH -->
@@ -694,7 +727,7 @@
     <section class="panel" id="p-ride" role="tabpanel" aria-labelledby="t-ride" data-title="The New Ride" hidden>
       <p class="kicker">brand new, all yours</p>
       <h2>The New Ride</h2>
-      <p class="lede">A new Tesla for your birthday. Quiet, smooth, and ready to take you anywhere you want to go.</p>
+      <p class="lede">Happy birthday to you and your brand-new Tesla. Smooth, quiet, quick, and, most importantly, I helped pick it out.</p>
       <div class="road-box" id="roadBox"></div>
       <div class="battery-row">
         <div class="lbl"><span>Battery</span><span id="batteryPct">40%</span></div>
@@ -708,12 +741,27 @@
         <button class="btn" type="button" id="plugIn" aria-pressed="false">Plug in</button>
         <button class="btn" type="button" id="drive" aria-pressed="false">Drive</button>
       </div>
-      <p class="status" id="rideStatus" aria-live="polite">Parked in the driveway, looking good.</p>
-      <p class="ride-note">I helped pick this one out, and I hope it feels like yours every single time you get in.</p>
-      <div class="snap-pair">
-        <button type="button" class="snap" style="--tilt:-2.5deg" aria-label="View photo: Off on an adventure"><img src="photos/adventure.jpg" alt="Mom and Myles with family, taking a selfie before a trip" loading="lazy"><span class="cap">Off on an adventure</span></button>
-        <button type="button" class="snap" style="--tilt:2deg" aria-label="View photo: Taking off together"><img src="photos/taking-off.jpg" alt="The family and friends standing by a plane" loading="lazy"><span class="cap">Taking off together</span></button>
+      <p class="status" id="rideStatus" aria-live="polite">Parked in the driveway, looking good. (Myles would like you to know he helped pick it out.)</p>
+      <p class="copilot"><b>Co-pilot:</b> Myles (picked it out, very involved, zero driving privileges)</p>
+      <div class="ride-extras">
+        <section class="spec" aria-labelledby="specTitle">
+          <h3 id="specTitle">Official spec sheet</h3>
+          <dl>
+            <dt>Owner</dt><dd>Mindy Orozco</dd>
+            <dt>Color</dt><dd>Chosen with Myles's expert input</dd>
+            <dt>Seats chosen</dt><dd>All of them</dd>
+            <dt>Range</dt><dd>Dinner and back, as many times as you want</dd>
+            <dt>Driver</dt><dd>You. Only you.</dd>
+            <dt>Myles's contribution</dt><dd>Moral support</dd>
+          </dl>
+        </section>
+        <figure class="review">
+          <p class="stars" role="img" aria-label="Five out of five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+          <blockquote>&ldquo;Five stars. The guy who helped pick it out is a genius.&rdquo;</blockquote>
+          <figcaption>Verified review, from someone who is definitely not Myles</figcaption>
+        </figure>
       </div>
+      <p class="ride-note">All jokes aside, you work so hard for everyone else. I'm really glad you finally got something that's just for you.</p>
     </section>
 
     <!-- 8. DINNER TONIGHT -->
@@ -752,7 +800,7 @@
         <li><span class="dot" aria-hidden="true"></span><span class="when">November 10</span>
           <h3>Sesame Street debuts</h3><p>A brand-new show starts teaching a generation to count, to read, and to be kind.</p></li>
         <li class="arrival">
-          <svg class="dot" viewBox="-30 -30 60 60" aria-hidden="true" data-flower="sunflower"></svg>
+          <svg class="dot" viewBox="-15 -15 30 30" aria-hidden="true"><path d="M0 12S-12 4.5-12-3a6 6 0 0 1 12-2.5A6 6 0 0 1 12-3c0 7.5-12 15-12 15z" fill="#ffd447" stroke="#4a2c17" stroke-width="2.2" stroke-linejoin="round"/></svg>
           <div class="arrival-card">
             <span class="when">November 24</span>
             <h3>November 24, a Monday, you arrived.</h3>
@@ -767,7 +815,7 @@
       <div class="given">
         <p class="kicker">the things I carry</p>
         <h2>What You've Given Me</h2>
-        <p class="lede">A few things you've taught me, and the little things I'll always remember. Tap Next whenever you're ready.</p>
+        <p class="lede">A few things I've learned from watching you. Tap Next whenever you're ready.</p>
         <ol class="given-list" id="givenList" aria-live="polite"></ol>
         <div class="row given-bar">
           <span class="given-count" id="givenCount"></span>
@@ -780,15 +828,13 @@
     <section class="panel" id="p-note" role="tabpanel" aria-labelledby="t-note" data-title="A Note" hidden>
       <p class="kicker">the long version</p>
       <h2>A Note</h2>
-      <div class="letter-photo"><button type="button" class="snap tall" style="--tilt:3deg;--pos:center 70%" aria-label="View photo: Our trip to D.C."><img src="photos/dc-trip.jpg" alt="Mom and Myles with family on the Capitol steps" loading="lazy"><span class="cap">Our trip to D.C.</span></button></div>
       <article class="letter" aria-label="A letter from Myles">
         <span class="clip" aria-hidden="true"></span>
         <p>Dear Mom,</p>
-        <p>Happy birthday. I wanted to give you something you could keep, so I made you this: a card you can open again whenever you want.</p>
-        <p>I don't say it enough, but I notice everything you do. The lunches you bring me without my asking. The way you drop whatever you're doing the second I need help. How you get excited about every project I show you, even when I'm still figuring out what it is. You make me feel like the things I make matter, and that has shaped me more than you know.</p>
-        <p>You've always put us kids first. You fill the house with flowers and dogs and good food and a little yellow everywhere, and somehow all of it just feels like you. Being around you feels like home.</p>
-        <p>I hope this year gives you back even a little of the joy you've given all of us. I hope the new car takes you everywhere you want to go. And tonight at dinner, I hope you can feel how loved you are.</p>
-        <p>Thank you for everything, the big things and all the little ones.</p>
+        <p>Happy birthday. I wanted to make you something you could keep and come back to, so I built you this.</p>
+        <p>I don't say it enough, but thank you for working so hard for us. You are one of the hardest-working people I know, and I've watched you do it my whole life without ever asking for anything back. So much of what you do, you do for your kids, and I see that more clearly every year.</p>
+        <p>Thank you for always helping me. Every time I've called, every time I've needed something, you've been there, usually before I even finished asking. You care about my hobbies like they're your own, and you've never once made me feel like I was too much.</p>
+        <p>I hope today you get to slow down and let us take care of you for a change. I hope the new car makes every drive a little more fun. And tonight at dinner, I hope you know how proud I am to be your son.</p>
         <p class="sig"><span>Love,</span><span>Myles</span></p>
       </article>
     </section>
@@ -809,8 +855,31 @@
 </div>
 
 <script>
-/* Photos live in the photos/ folder and are placed right in the HTML
-   (look for class="snap"). Tap any photo to see it up close. */
+/* =========================================================
+   PHOTOS: files live in the images/ folder next to index.html.
+   Add, remove, or reorder entries here. If this list is empty,
+   the Photos tab is hidden. A photo that fails to load is
+   removed automatically. Optional: pos shifts the crop.
+   ========================================================= */
+const PHOTOS = [
+  { src: "images/photo1.jpg",  cap: "Fall days with you" },
+  { src: "images/photo2.jpg",  cap: "Always up for a game of cards" },
+  { src: "images/photo3.jpg",  cap: "Opening night, and you were there", pos: "center 35%" },
+  { src: "images/photo4.jpg",  cap: "My first fans", pos: "center 30%" },
+  { src: "images/photo5.jpg",  cap: "Out on the water", pos: "center 25%" },
+  { src: "images/photo6.jpg",  cap: "Big smiles", pos: "center 40%" },
+  { src: "images/photo7.jpg",  cap: "Off on an adventure" },
+  { src: "images/photo8.jpg",  cap: "Championship day" },
+  { src: "images/photo9.jpg",  cap: "Right there on the sideline" },
+  { src: "images/photo10.jpg", cap: "All dressed up", pos: "center 40%" },
+  { src: "images/photo11.jpg", cap: "Our trip to D.C.", pos: "center 70%" },
+  { src: "images/photo12.jpg", cap: "Taking off together" },
+  { src: "images/photo13.jpg", cap: "Showing up, like always", pos: "center 50%" },
+  { src: "images/photo14.jpg", cap: "Your two shadows", pos: "center 65%" },
+  { src: "images/photo15.jpg", cap: "Riding along", pos: "center 30%" },
+  { src: "images/photo16.jpg", cap: "Waiting for you" },
+];
+
 (() => {
   "use strict";
   const $ = (s, el = document) => el.querySelector(s);
@@ -918,23 +987,56 @@
   })();
 
   /* ---------------- Tabs ---------------- */
-  const panels = $$(".panel");
+  /* ---------------- 2. Photos ---------------- */
+  const photoGrid = $("#photoGrid");
+  const TILTS = [-3, 2.5, -1.5, 3, -2.5, 1.5, -2, 2];
+  function dropPhotosTab() {
+    const p = $("#p-photos"); if (!p) return;
+    const keep = p.hidden ? keyOf(panels[current]) : "card";
+    p.remove(); buildTabs();
+    select(Math.max(0, panels.findIndex(x => keyOf(x) === keep)), { updateHash: false });
+  }
+  PHOTOS.forEach((ph, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "snap";
+    b.style.setProperty("--tilt", TILTS[i % TILTS.length] + "deg");
+    b.setAttribute("aria-label", "View photo: " + ph.cap);
+    const img = document.createElement("img");
+    img.alt = ph.cap;
+    if (ph.pos) img.style.objectPosition = ph.pos;
+    img.onerror = () => { b.remove(); if (!photoGrid.children.length) dropPhotosTab(); };
+    img.src = ph.src;
+    const cap = document.createElement("span");
+    cap.className = "cap"; cap.textContent = ph.cap;
+    b.append(img, cap);
+    photoGrid.appendChild(b);
+  });
+  if (!PHOTOS.length) $("#p-photos").remove();
+
+  /* ---------------- Tabs ---------------- */
   const tablist = $("#tabs");
   const keyOf = (p) => p.id.replace(/^p-/, "");
-  panels.forEach((p, i) => {
-    const b = document.createElement("button");
-    b.type = "button"; b.className = "tab"; b.id = "t-" + keyOf(p);
-    b.setAttribute("role", "tab"); b.setAttribute("aria-controls", p.id);
-    b.innerHTML = `<span class="num" aria-hidden="true">${i + 1}</span>${p.dataset.title}`;
-    b.addEventListener("click", () => select(i, { focus: false }));
-    tablist.appendChild(b);
-    // previous / next links at the bottom of every page
-    const nav = document.createElement("nav");
-    nav.className = "panel-nav"; nav.setAttribute("aria-label", "Page navigation");
-    if (i > 0) nav.appendChild(navBtn(i - 1, "← " + panels[i - 1].dataset.title));
-    if (i < panels.length - 1) nav.appendChild(navBtn(i + 1, panels[i + 1].dataset.title + " →"));
-    p.appendChild(nav);
-  });
+  let panels = [], tabs = [], current = 0;
+  function buildTabs() {
+    tablist.innerHTML = "";
+    $$(".panel-nav").forEach(n => n.remove());
+    panels = $$(".panel");
+    panels.forEach((p, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "tab"; b.id = "t-" + keyOf(p);
+      b.setAttribute("role", "tab"); b.setAttribute("aria-controls", p.id);
+      b.innerHTML = `<span class="num" aria-hidden="true">${i + 1}</span>${p.dataset.title}`;
+      b.addEventListener("click", () => select(i, { focus: false }));
+      tablist.appendChild(b);
+      // previous / next links at the bottom of every page
+      const nav = document.createElement("nav");
+      nav.className = "panel-nav"; nav.setAttribute("aria-label", "Page navigation");
+      if (i > 0) nav.appendChild(navBtn(i - 1, "\u2190 " + panels[i - 1].dataset.title));
+      if (i < panels.length - 1) nav.appendChild(navBtn(i + 1, panels[i + 1].dataset.title + " \u2192"));
+      p.appendChild(nav);
+    });
+    tabs = $$(".tab", tablist);
+  }
   function navBtn(idx, label) {
     const b = document.createElement("button");
     b.type = "button"; b.textContent = label;
@@ -942,8 +1044,6 @@
     b.addEventListener("click", () => { select(idx, { focus: true }); $(".wrap").scrollIntoView({ behavior: reduced() ? "auto" : "smooth" }); });
     return b;
   }
-  const tabs = $$(".tab", tablist);
-  let current = 0;
   function select(i, { focus = false, updateHash = true } = {}) {
     i = (i + tabs.length) % tabs.length;
     current = i;
@@ -967,6 +1067,7 @@
     else if (inTabs && e.key === "Home") { e.preventDefault(); select(0, { focus: true }); }
     else if (inTabs && e.key === "End") { e.preventDefault(); select(tabs.length - 1, { focus: true }); }
   });
+  buildTabs();
   const startIdx = panels.findIndex(p => "#" + keyOf(p) === location.hash);
   select(startIdx >= 0 ? startIdx : 0, { updateHash: false });
 
@@ -980,7 +1081,7 @@
     openBtn.textContent = open ? "Close the card" : "Open the card";
     if (open) setTimeout(() => confetti(greeting, 160), reduced() ? 0 : 350);
   }
-  greeting.addEventListener("click", (e) => { if (!e.target.closest(".snap")) toggleCard(); });
+  greeting.addEventListener("click", toggleCard);
   const inside = $("#cardInside");
   inside.inert = true;
   openBtn.addEventListener("click", toggleCard);
@@ -1013,28 +1114,25 @@
 
   /* ---------------- 3. Why You're the Best ---------------- */
   const ICONS = {
-    lunch: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M8 22h36l-3 20a4 4 0 0 1-4 3H15a4 4 0 0 1-4-3z" fill="#fff1b8" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M18 22c0-8 16-8 16 0" fill="none" stroke="${INK}" stroke-width="3"/><path d="M6 22h40" stroke="${INK}" stroke-width="3" stroke-linecap="round"/><path d="M22 32a4 4 0 0 1 8 0c0 4-4 6-4 6s-4-2-4-6z" fill="#f4a6b8" stroke="${INK}" stroke-width="2"/></svg>`,
+    work: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M13 38a13 13 0 0 1 26 0z" fill="#ffd447" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M6 38h40M26 10v7M11 18l5 5M41 18l-5 5" stroke="${INK}" stroke-width="3" stroke-linecap="round"/></svg>`,
     help: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M26 44S8 33 8 20a9 9 0 0 1 18-3 9 9 0 0 1 18 3c0 13-18 24-18 24z" fill="#f4a6b8" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/></svg>`,
-    projects: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M26 6l6 13 14 2-10 10 2 14-12-7-12 7 2-14L6 21l14-2z" fill="#ffd447" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/></svg>`,
-    kids: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M8 26L26 10l18 16" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 22v20h26V22" fill="#fff1b8" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M26 38s-7-4-7-9a3.5 3.5 0 0 1 7-1 3.5 3.5 0 0 1 7 1c0 5-7 9-7 9z" fill="#f4a6b8" stroke="${INK}" stroke-width="2"/></svg>`,
-    food: `<svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="28" r="17" fill="#fff" stroke="${INK}" stroke-width="3"/><circle cx="26" cy="28" r="10" fill="#ffe27a" stroke="${INK}" stroke-width="2"/><path d="M5 8v12M9 8v12M5 20h4M7 20v24M46 8c-4 3-4 10 0 13v23" fill="none" stroke="${INK}" stroke-width="2.5" stroke-linecap="round"/></svg>`,
-    yellow: `<svg viewBox="-30 -30 60 60" aria-hidden="true">${flowerHead("sunflower")}</svg>`
+    hobbies: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M26 6l6 13 14 2-10 10 2 14-12-7-12 7 2-14L6 21l14-2z" fill="#ffd447" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/></svg>`,
+    kids: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M19 42S5 33 5 22a7.5 7.5 0 0 1 14-3.5A7.5 7.5 0 0 1 33 22c0 11-14 20-14 20z" fill="#f4a6b8" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M36 36s-9-5.5-9-12.5a5 5 0 0 1 9-2.5 5 5 0 0 1 9 2.5c0 7-9 12.5-9 12.5z" fill="#ffd447" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/></svg>`,
+    better: `<svg viewBox="0 0 52 52" aria-hidden="true"><path d="M26 5v6M26 41v6M5 26h6M41 26h6M11 11l4 4M37 37l4 4M41 11l-4 4M15 37l-4 4" stroke="${INK}" stroke-width="3" stroke-linecap="round"/><circle cx="26" cy="26" r="11" fill="#ffd447" stroke="${INK}" stroke-width="3"/></svg>`
   };
   const REASONS = [
-    ["lunch", "cards.jpg", "center", "Lunch, delivered", "You've brought me lunch more times than I can count, and every single one felt like a hug in a container."],
-    ["help", "baseball.jpg", "center 30%", "Always there to help", "Every time I've asked for help, you've said yes before I even finished asking."],
-    ["projects", "opening-night.jpg", "center 30%", "My biggest fan", "You love every project I make, even the half-finished ones, and that's a big reason I keep making them."],
-    ["kids", "boat.jpg", "center 30%", "Kids first, always", "You've always put us first, quietly, without ever once making it feel like a sacrifice."],
-    ["food", "dressed-up.jpg", "center 35%", "Excellent taste in food", "If you say a place is good, it's good. Your taste has never let me down."],
-    ["yellow", "big-smiles.jpg", "center 40%", "Sunshine yellow", "You love yellow, and it makes sense. You're the brightest thing in any room."]
+    ["work", "Hardest worker I know", "You work harder than anyone I know, and you've always done it for us without asking for credit."],
+    ["help", "Always there", "Every time I've asked for help, you've shown up. Not once have you made me feel like a bother."],
+    ["hobbies", "My biggest believer", "You believe in every one of my hobbies, even the ones nobody else gets, and that makes me want to keep going."],
+    ["kids", "Kids first", "You've always put your kids first, quietly, and without ever making it feel like a sacrifice."],
+    ["better", "Everything's better with you", "Whatever kind of day it is, it gets better once you're part of it."]
   ];
   const whyGrid = $("#whyGrid");
-  REASONS.forEach(([icon, photo, pos, title, back]) => {
+  REASONS.forEach(([icon, title, back]) => {
     const b = document.createElement("button");
     b.type = "button"; b.className = "flip"; b.setAttribute("aria-pressed", "false");
-    b.innerHTML = `<span class="flip-inner"><span class="side f">${ICONS[icon]}<span class="t"></span><span class="tap" aria-hidden="true">tap to flip</span></span><span class="side b"><img alt="" loading="lazy"><span class="bt"></span></span></span>`;
-    $(".t", b).textContent = title; $(".bt", b).textContent = back;
-    const im = $(".side.b img", b); im.src = "photos/" + photo; im.style.setProperty("--pos", pos);
+    b.innerHTML = `<span class="flip-inner"><span class="side f">${ICONS[icon]}<span class="t"></span><span class="tap" aria-hidden="true">tap to flip</span></span><span class="side b"></span></span>`;
+    $(".t", b).textContent = title; $(".side.b", b).textContent = back;
     b.addEventListener("click", () => { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); syncFlipAll(); });
     whyGrid.appendChild(b);
   });
@@ -1160,10 +1258,10 @@
   const DOGS = {
     brown: { el: $("#dogBrown"), bubble: $("#bubbleBrown"),
       colors: { body: "#a8662f", ear: "#6f3d17", muzzle: "#e8c196", chest: "#e8c196", collar: "#ffd447", blush: .55 },
-      lines: ["Happy birthday! We love you so much.", "You're the best mom a pup could ask for.", "Thank you for every single belly rub.", "We saved you the warm spot on the couch.", "Can we come to dinner too?", "Everything's better when you're home."] },
+      lines: ["Happy birthday! We love you so much.", "You're the best mom a pup could ask for.", "Thank you for every single belly rub.", "We saved you the warm spot on the couch.", "Can we come to dinner too?", "We heard about the new car. Dibs on the back seat."] },
     black: { el: $("#dogBlack"), bubble: $("#bubbleBlack"),
       colors: { body: "#2e2622", ear: "#1b1513", muzzle: "#6a5a51", chest: "#5a4b43", collar: "#f4a6b8", ring: "#5a4b43", blush: .35 },
-      lines: ["You're our favorite person in the world.", "We'd follow you anywhere. Every room, really.", "You always find the best scratchy spots.", "Home is wherever you are.", "Thank you for loving us so well.", "Today you get all the tail wags."] }
+      lines: ["You're our favorite person in the world.", "We'd follow you anywhere. Every room, really.", "You always find the best scratchy spots.", "We'll be waiting by the door after dinner.", "Thank you for loving us so well.", "Today you get all the tail wags."] }
   };
   const TREAT_LINES = ["Yum! Thank you!", "Best birthday party ever.", "Mmm. You're the best.", "Could we maybe have one more?"];
   function wiggle(d) {
@@ -1233,9 +1331,9 @@
       ${sprinkles}
       <rect x="82" y="102" width="156" height="64" rx="10" fill="#ffd447" stroke="${INK}" stroke-width="3"/>
       ${drips(82, 102, 156, 12, [8, 3, 11, 5, 9, 4], "#fffaf0")}
-      <g transform="translate(160 146) scale(.62)">${flowerHead("daisy")}</g>
-      <g transform="translate(110 148) scale(.48)">${flowerHead("daisy")}</g>
-      <g transform="translate(210 148) scale(.48)">${flowerHead("daisy")}</g>
+      <path transform="translate(160 140) scale(1.15)" d="M0 9S-10 3-10-3a5 5 0 0 1 10-2 5 5 0 0 1 10 2c0 6-10 12-10 12z" fill="#f4a6b8" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/>
+      <path transform="translate(116 142) scale(0.85)" d="M0 9S-10 3-10-3a5 5 0 0 1 10-2 5 5 0 0 1 10 2c0 6-10 12-10 12z" fill="#fffaf0" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/>
+      <path transform="translate(204 142) scale(0.85)" d="M0 9S-10 3-10-3a5 5 0 0 1 10-2 5 5 0 0 1 10 2c0 6-10 12-10 12z" fill="#fffaf0" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/>
       ${candles}`;
   })();
   const candleEls = $$("#cake .candle");
@@ -1329,10 +1427,10 @@
     timer = setInterval(() => {
       if (plugged) {
         battery = Math.min(100, battery + 2);
-        if (battery >= 100) { clearInterval(timer); timer = 0; status.textContent = "Fully charged. Ready whenever you are."; }
+        if (battery >= 100) { clearInterval(timer); timer = 0; status.textContent = "Fully charged. Myles takes partial credit."; }
       } else if (driving) {
         battery = Math.max(0, battery - 0.5);
-        if (battery <= 0) { setDrive(false); status.textContent = "Out of charge. Time to plug in."; }
+        if (battery <= 0) { setDrive(false); status.textContent = "Out of charge. Your co-pilot suggests plugging in. Thanks, Myles."; }
       }
       renderBattery();
     }, plugged ? 60 : 250);
@@ -1344,8 +1442,8 @@
     if (on) {
       if (driving) setDrive(false, true);
       if (reduced()) battery = 100, renderBattery();
-      status.textContent = battery >= 100 ? "Fully charged. Ready whenever you are." : "Charging up, nice and quiet.";
-    } else status.textContent = "Unplugged and ready to go.";
+      status.textContent = battery >= 100 ? "Fully charged. Myles takes partial credit." : "Charging up. Myles is supervising.";
+    } else status.textContent = "Unplugged and ready to roll.";
     loop();
   }
   function setDrive(on, silent) {
@@ -1355,8 +1453,8 @@
     if (on) {
       if (plugged) { plugged = false; roadBox.classList.remove("plugged"); plugBtn.setAttribute("aria-pressed", "false"); plugBtn.textContent = "Plug in"; }
       if (battery <= 0) { setDrive(false); status.textContent = "Needs a little charge first. Try Plug in."; return; }
-      status.textContent = "Cruising. Next stop: dinner.";
-    } else if (!silent) status.textContent = "Parked. Looking good.";
+      status.textContent = "Cruising. Your co-pilot is giving directions nobody asked for.";
+    } else if (!silent) status.textContent = "Parked. Nailed it.";
     loop();
   }
   plugBtn.addEventListener("click", () => setPlug(!plugged));
@@ -1417,16 +1515,15 @@
 
   /* ---------------- 10. What You've Given Me ---------------- */
   const GIVEN = [
-    ["You taught me that showing up is its own kind of love.", "showing-up.jpg", "The family together at an event", "Showing up, like always", "center 45%"],
-    "The lunches. Every single one. You never made it seem like a big deal, and that's exactly what made it one.",
+    "You taught me what hard work looks like, mostly by never once complaining about yours.",
+    "You give everything to your day, and somehow you still have something left over for us.",
     "When I ask for help, you don't ask why. You just ask what I need.",
-    ["You taught me to be proud of what I make, because you were always proud of it first.", "championship.jpg", "Mom and Myles with family and a championship trophy", "Championship day", "center 40%"],
-    "The way you pick out the perfect card, every time, for everyone.",
-    "Flowers on the table, the dogs at your feet, something good to eat. That's what home looks like to me.",
-    "You taught me that kindness doesn't have to be loud.",
-    ["You've put us first so many times that I'm sure I never noticed them all. I'm noticing now.", "football.jpg", "Mom and Myles with family on the football field", "Right there on the sideline", "center 40%"],
-    "You taught me how to take care of people, mostly by taking such good care of me.",
-    "And the way you show up, every time, for every one of us. I'll always remember that.",
+    "You bring me lunch and make it for me too.",
+    "You've been in the stands, in the audience, and on the sidelines for everything we've ever done.",
+    "You show up for your kids every single time, even when you're tired, even when it's hard.",
+    "You taught me that working hard is one of the ways you take care of people.",
+    "You never made us feel like extra work, even on the days we definitely were.",
+    "Everything I know about showing up, I learned from watching you do it.",
   ];
   const givenList = $("#givenList"), givenNext = $("#givenNext"), givenCount = $("#givenCount");
   let shown = 0;
@@ -1437,19 +1534,7 @@
       givenList.innerHTML = ""; shown = 0;
     }
     const li = document.createElement("li");
-    const g = GIVEN[shown];
-    li.className = "newest";
-    if (Array.isArray(g)) {
-      const [text, src, alt, cap, pos] = g;
-      li.appendChild(document.createTextNode(text));
-      const b = document.createElement("button");
-      b.type = "button"; b.className = "snap";
-      b.style.setProperty("--tilt", (shown % 2 ? 2 : -2) + "deg"); b.style.setProperty("--pos", pos);
-      b.setAttribute("aria-label", "View photo: " + cap);
-      b.innerHTML = `<img alt=""><span class="cap"></span>`;
-      $("img", b).src = "photos/" + src; $("img", b).alt = alt; $(".cap", b).textContent = cap;
-      li.appendChild(b);
-    } else li.textContent = g;
+    li.textContent = GIVEN[shown]; li.className = "newest";
     givenList.appendChild(li); shown++;
     if (shown === GIVEN.length) {
       const t = document.createElement("li"); t.className = "thanks newest"; t.textContent = "Thank you, Mom.";
