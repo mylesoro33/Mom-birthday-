@@ -830,10 +830,25 @@
    Put your image files next to index.html (for example in a
    "photos" folder) and list them here. Example:
      { src: "photos/beach-day.jpg", cap: "Our beach day" },
+   Optional: pos: "center 30%" shifts the crop in the square frame.
    ========================================================= */
 const PHOTOS = [
-  // { src: "photos/mom-and-me.jpg", cap: "You and me" },
-  // { src: "photos/birthday.jpg",   cap: "Birthday smiles" },
+  { src: "photos/fall-selfie.jpg",   cap: "Fall days with you" },
+  { src: "photos/cards.jpg",         cap: "Always up for a game of cards" },
+  { src: "photos/opening-night.jpg", cap: "Opening night, and you were there" },
+  { src: "photos/baseball.jpg",      cap: "My first fans" },
+  { src: "photos/boat.jpg",          cap: "Out on the water" },
+  { src: "photos/big-smiles.jpg",    cap: "Big smiles" },
+  { src: "photos/adventure.jpg",     cap: "Off on an adventure" },
+  { src: "photos/championship.jpg",  cap: "Championship day" },
+  { src: "photos/senior-night.jpg",  cap: "Senior night" },
+  { src: "photos/dressed-up.jpg",    cap: "All dressed up" },
+  { src: "photos/dc-trip.jpg",       cap: "Our trip to D.C." },
+  { src: "photos/taking-off.jpg",    cap: "Taking off together" },
+  { src: "photos/showing-up.jpg",    cap: "Showing up, like always" },
+  { src: "photos/pups-stairs.jpg",   cap: "Your two shadows", pos: "center 65%" },
+  { src: "photos/black-pup.jpg",     cap: "Riding along" },
+  { src: "photos/brown-pup.jpg",     cap: "Waiting for you" },
 ];
 
 (() => {
@@ -1022,7 +1037,7 @@ const PHOTOS = [
       b.style.setProperty("--tilt", TILTS[i % TILTS.length] + "deg");
       b.setAttribute("aria-label", "View photo" + (ph.cap ? ": " + ph.cap : ""));
       b.innerHTML = `<span class="frame"><img alt="" loading="lazy"></span><span class="cap"></span>`;
-      $("img", b).src = ph.src; $("img", b).alt = ph.cap || "A photo";
+      $("img", b).src = ph.src; if (ph.pos) $("img", b).style.objectPosition = ph.pos; $("img", b).alt = ph.cap || "A photo";
       $(".cap", b).textContent = ph.cap || "";
       b.addEventListener("click", () => openLightbox(i));
       grid.appendChild(b);
