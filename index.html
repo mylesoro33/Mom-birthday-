@@ -219,50 +219,38 @@
   .face.inside p { margin: 0 0 1rem; }
   .face.inside .salute { font: 700 2rem/1 var(--hand); margin-bottom: .9rem; }
   .face.inside .sign { font: 700 1.9rem/1.1 var(--hand); margin: .4rem 0 0; }
-  .face.inside .tiny-flower { position: absolute; width: 58px; right: 18px; top: 16px; transform: rotate(14deg); }
   .card-actions { margin-top: 22px; }
 
   @keyframes sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
   @keyframes nudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
-  /* ---------- 2. Photos ---------- */
-  .photo-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 16px;
-    padding: 6px 4px 4px;
-  }
-  @media (min-width: 640px) { .photo-grid { grid-template-columns: repeat(3, 1fr); gap: 28px 24px; } }
-  .polaroid {
-    display: block; width: 100%; text-align: center;
+  /* ---------- Photos, tucked in throughout ---------- */
+  .snap {
+    display: block; width: 100%; padding: 8px 8px 0; text-align: center;
     background: #fff; border: 2px solid var(--ink); border-radius: 4px;
-    padding: 9px 9px 0; box-shadow: 4px 4px 0 rgba(74,44,23,.85);
-    transform: rotate(var(--tilt, 0deg));
-    transition: transform .25s ease;
+    box-shadow: 4px 4px 0 rgba(74,44,23,.85);
+    transform: rotate(var(--tilt, -2deg)); transition: transform .25s ease;
     position: relative;
   }
-  .polaroid:hover { transform: rotate(0deg) scale(1.03); z-index: 2; }
-  .polaroid .frame {
-    aspect-ratio: 1; overflow: hidden; border: 2px solid var(--ink); background: var(--butter-soft);
-    display: grid; place-items: center;
+  .snap:hover { transform: rotate(0deg) scale(1.02); z-index: 2; }
+  .snap img {
+    width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: var(--pos, center);
+    border: 2px solid var(--ink); background: var(--butter-soft);
   }
-  .polaroid img { width: 100%; height: 100%; object-fit: cover; }
-  .polaroid .cap { display: block; font: 700 1.3rem/1.1 var(--hand); padding: .55rem .2rem .7rem; min-height: 2.6rem; }
-  .polaroid.empty .frame {
-    background:
-      repeating-linear-gradient(45deg, rgba(255,226,122,.55) 0 10px, rgba(255,241,184,.55) 10px 20px);
-    border-style: dashed;
-  }
-  .polaroid.empty .ph { display: grid; justify-items: center; gap: 6px; font: 700 .8rem/1.2 var(--sans); color: var(--ink-soft); padding: 8px; }
-  .polaroid.empty .ph svg { width: 42px; height: 42px; }
-  .polaroid::after {
+  .snap.tall img { aspect-ratio: 4 / 5; }
+  .snap .cap { display: block; font: 700 1.25rem/1.15 var(--hand); padding: .45rem .2rem .55rem; }
+  .snap::after {
     content: ""; position: absolute; top: -10px; left: 50%; width: 62px; height: 20px;
     transform: translateX(-50%) rotate(-3deg);
     background: rgba(255,212,71,.75); border: 1px solid rgba(74,44,23,.25);
   }
-  .photo-tools { margin-bottom: 22px; }
-  .file-btn { position: relative; }
-  .file-btn input { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
-  .file-btn:focus-within { outline: 3px solid var(--focus); outline-offset: 3px; }
-  .note-small { font-size: .9rem; color: var(--ink-soft); margin: 0; }
+  .snap-solo { max-width: 290px; margin: 26px auto 6px; }
+  .snap-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 560px; margin: 24px auto 4px; padding: 0 4px; }
+  .face.inside .snap { max-width: 230px; margin: 4px auto 18px; }
+  .pup .snap { max-width: 170px; margin-top: 18px; }
+  .given-list li .snap { max-width: 250px; margin: 16px auto 6px; }
+  .letter-photo { max-width: 240px; margin: 22px auto -34px; position: relative; z-index: 3; }
+  .letter-photo:hover { z-index: 3; }
 
   dialog.lightbox {
     border: var(--line) solid var(--ink); border-radius: 14px; padding: 14px 14px 10px;
@@ -279,7 +267,7 @@
   @media (min-width: 640px) { .why-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
   .flip {
     perspective: 1000px; background: none; border: 0; padding: 0; text-align: center;
-    min-height: 190px; display: grid; border-radius: 16px;
+    min-height: 200px; display: grid; border-radius: 16px;
     filter: drop-shadow(4px 4px 0 var(--ink));
   }
   .flip-inner {
@@ -297,7 +285,11 @@
   .flip .side.f { background: var(--butter); }
   .flip:nth-child(2n) .side.f { background: var(--butter-soft); }
   .flip:nth-child(3n) .side.f { background: var(--peach); }
-  .flip .side.b { background: var(--paper); transform: rotateY(180deg); font: 600 .98rem/1.4 var(--sans); }
+  .flip .side.b { background: var(--paper); transform: rotateY(180deg); font: 600 .92rem/1.38 var(--sans); padding: 10px 10px 14px; justify-content: flex-start; }
+  .flip .side.b img {
+    width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: var(--pos, center);
+    border: 2px solid var(--ink); border-radius: 8px; flex: none;
+  }
   .flip .side svg { width: 52px; height: 52px; }
   .flip .t { font: 400 1.12rem/1.2 var(--serif); }
   .flip .tap { font: 700 1.05rem/1 var(--hand); color: var(--ink-soft); }
@@ -580,7 +572,7 @@
             <span class="hint" aria-hidden="true">Tap to open</span>
           </div>
           <div class="face inside" id="cardInside">
-            <svg class="tiny-flower" viewBox="-30 -30 60 60" aria-hidden="true" data-flower="daisy"></svg>
+            <button type="button" class="snap" style="--tilt:-3deg" aria-label="View photo: Fall days with you"><img src="photos/fall-selfie.jpg" alt="Myles and Mom smiling together under fall trees" loading="lazy"><span class="cap">Fall days with you</span></button>
             <p class="salute">Mom,</p>
             <p>Happy birthday to the person who always shows up: with lunch, with help, with a hug, and with so much love for every single thing I make.</p>
             <p>Today is all about you. I hope it feels as warm as you make every day feel for all of us.</p>
@@ -592,32 +584,6 @@
       <div class="row center card-actions">
         <button class="btn" id="openCard" type="button" aria-pressed="false">Open the card</button>
       </div>
-    </section>
-
-    <!-- 2. PHOTOS -->
-    <section class="panel" id="p-photos" role="tabpanel" aria-labelledby="t-photos" data-title="Photos" hidden>
-      <p class="kicker">a few favorites</p>
-      <h2>Photos</h2>
-      <p class="lede">Little moments worth keeping. Tap any photo to see it up close.</p>
-      <div class="row photo-tools">
-        <label class="btn file-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-          Add photos
-          <input type="file" id="photoInput" accept="image/*" multiple aria-label="Add photos">
-        </label>
-        <p class="note-small">Photos you add here stay until the page is closed.</p>
-      </div>
-      <div class="photo-grid" id="photoGrid"></div>
-
-      <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
-        <img id="lbImg" alt="">
-        <p class="lb-cap" id="lbCap"></p>
-        <div class="lb-bar">
-          <button class="btn ghost" type="button" id="lbPrev" aria-label="Previous photo">&larr; Prev</button>
-          <button class="btn" type="button" id="lbClose">Close</button>
-          <button class="btn ghost" type="button" id="lbNext" aria-label="Next photo">Next &rarr;</button>
-        </div>
-      </dialog>
     </section>
 
     <!-- 3. WHY YOU'RE THE BEST -->
@@ -689,10 +655,12 @@
         <div class="pup">
           <p class="bubble" id="bubbleBrown" aria-live="polite">Happy birthday! We love you so much.</p>
           <button class="dog-btn" type="button" id="dogBrown" aria-label="Pet the brown pup" data-dog="brown"></button>
+          <button type="button" class="snap" style="--tilt:-3deg" aria-label="View photo: Waiting for you"><img src="photos/brown-pup.jpg" alt="The brown pup looking up from the carpet" loading="lazy"><span class="cap">Waiting for you</span></button>
         </div>
         <div class="pup">
           <p class="bubble" id="bubbleBlack" aria-live="polite">You're our favorite person in the world.</p>
           <button class="dog-btn" type="button" id="dogBlack" aria-label="Pet the black pup" data-dog="black"></button>
+          <button type="button" class="snap" style="--tilt:2.5deg;--pos:center 30%" aria-label="View photo: Riding along"><img src="photos/black-pup.jpg" alt="The black pup riding along in the car" loading="lazy"><span class="cap">Riding along</span></button>
         </div>
       </div>
       <div class="row">
@@ -702,6 +670,7 @@
         </button>
         <span class="pill" aria-live="polite"><b id="treatCount">0</b> treats given</span>
       </div>
+      <div class="snap-solo"><button type="button" class="snap tall" style="--tilt:-1.5deg;--pos:center 60%" aria-label="View photo: Your two shadows"><img src="photos/pups-stairs.jpg" alt="Both pups on the stairs at home" loading="lazy"><span class="cap">Your two shadows</span></button></div>
     </section>
 
     <!-- 6. MAKE A WISH -->
@@ -741,6 +710,10 @@
       </div>
       <p class="status" id="rideStatus" aria-live="polite">Parked in the driveway, looking good.</p>
       <p class="ride-note">I helped pick this one out, and I hope it feels like yours every single time you get in.</p>
+      <div class="snap-pair">
+        <button type="button" class="snap" style="--tilt:-2.5deg" aria-label="View photo: Off on an adventure"><img src="photos/adventure.jpg" alt="Mom and Myles with family, taking a selfie before a trip" loading="lazy"><span class="cap">Off on an adventure</span></button>
+        <button type="button" class="snap" style="--tilt:2deg" aria-label="View photo: Taking off together"><img src="photos/taking-off.jpg" alt="The family and friends standing by a plane" loading="lazy"><span class="cap">Taking off together</span></button>
+      </div>
     </section>
 
     <!-- 8. DINNER TONIGHT -->
@@ -807,6 +780,7 @@
     <section class="panel" id="p-note" role="tabpanel" aria-labelledby="t-note" data-title="A Note" hidden>
       <p class="kicker">the long version</p>
       <h2>A Note</h2>
+      <div class="letter-photo"><button type="button" class="snap tall" style="--tilt:3deg;--pos:center 70%" aria-label="View photo: Our trip to D.C."><img src="photos/dc-trip.jpg" alt="Mom and Myles with family on the Capitol steps" loading="lazy"><span class="cap">Our trip to D.C.</span></button></div>
       <article class="letter" aria-label="A letter from Myles">
         <span class="clip" aria-hidden="true"></span>
         <p>Dear Mom,</p>
@@ -821,36 +795,22 @@
 
   </main>
 
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <img id="lbImg" alt="">
+    <p class="lb-cap" id="lbCap"></p>
+    <div class="lb-bar">
+      <button class="btn ghost" type="button" id="lbPrev" aria-label="Previous photo">&larr; Prev</button>
+      <button class="btn" type="button" id="lbClose">Close</button>
+      <button class="btn ghost" type="button" id="lbNext" aria-label="Next photo">Next &rarr;</button>
+    </div>
+  </dialog>
+
   <p class="foot">Made by hand for Mindy Orozco &middot; November 24</p>
 </div>
 
 <script>
-/* =========================================================
-   PHOTOS — Myles, fill this in!
-   Put your image files next to index.html (for example in a
-   "photos" folder) and list them here. Example:
-     { src: "photos/beach-day.jpg", cap: "Our beach day" },
-   Optional: pos: "center 30%" shifts the crop in the square frame.
-   ========================================================= */
-const PHOTOS = [
-  { src: "photos/fall-selfie.jpg",   cap: "Fall days with you" },
-  { src: "photos/cards.jpg",         cap: "Always up for a game of cards" },
-  { src: "photos/opening-night.jpg", cap: "Opening night, and you were there" },
-  { src: "photos/baseball.jpg",      cap: "My first fans" },
-  { src: "photos/boat.jpg",          cap: "Out on the water" },
-  { src: "photos/big-smiles.jpg",    cap: "Big smiles" },
-  { src: "photos/adventure.jpg",     cap: "Off on an adventure" },
-  { src: "photos/championship.jpg",  cap: "Championship day" },
-  { src: "photos/senior-night.jpg",  cap: "Senior night" },
-  { src: "photos/dressed-up.jpg",    cap: "All dressed up" },
-  { src: "photos/dc-trip.jpg",       cap: "Our trip to D.C." },
-  { src: "photos/taking-off.jpg",    cap: "Taking off together" },
-  { src: "photos/showing-up.jpg",    cap: "Showing up, like always" },
-  { src: "photos/pups-stairs.jpg",   cap: "Your two shadows", pos: "center 65%" },
-  { src: "photos/black-pup.jpg",     cap: "Riding along" },
-  { src: "photos/brown-pup.jpg",     cap: "Waiting for you" },
-];
-
+/* Photos live in the photos/ folder and are placed right in the HTML
+   (look for class="snap"). Tap any photo to see it up close. */
 (() => {
   "use strict";
   const $ = (s, el = document) => el.querySelector(s);
@@ -1015,73 +975,41 @@ const PHOTOS = [
   function toggleCard() {
     const open = !greeting.classList.contains("open");
     greeting.classList.toggle("open", open);
+    inside.inert = !open;
     openBtn.setAttribute("aria-pressed", open);
     openBtn.textContent = open ? "Close the card" : "Open the card";
     if (open) setTimeout(() => confetti(greeting, 160), reduced() ? 0 : 350);
   }
-  greeting.addEventListener("click", toggleCard);
+  greeting.addEventListener("click", (e) => { if (!e.target.closest(".snap")) toggleCard(); });
+  const inside = $("#cardInside");
+  inside.inert = true;
   openBtn.addEventListener("click", toggleCard);
 
-  /* ---------------- 2. Photos ---------------- */
-  const grid = $("#photoGrid");
-  const added = [];
-  const PLACEHOLDER_CAPS = ["You and me", "A favorite day", "The whole family", "Sunday lunch", "Your flowers", "Birthday smiles"];
-  const TILTS = [-3, 2.5, -1.5, 3, -2.5, 1.5, -2, 2];
-  const allPhotos = () => PHOTOS.concat(added);
-  function renderPhotos() {
-    grid.innerHTML = "";
-    const list = allPhotos();
-    list.forEach((ph, i) => {
-      const b = document.createElement("button");
-      b.type = "button"; b.className = "polaroid";
-      b.style.setProperty("--tilt", TILTS[i % TILTS.length] + "deg");
-      b.setAttribute("aria-label", "View photo" + (ph.cap ? ": " + ph.cap : ""));
-      b.innerHTML = `<span class="frame"><img alt="" loading="lazy"></span><span class="cap"></span>`;
-      $("img", b).src = ph.src; if (ph.pos) $("img", b).style.objectPosition = ph.pos; $("img", b).alt = ph.cap || "A photo";
-      $(".cap", b).textContent = ph.cap || "";
-      b.addEventListener("click", () => openLightbox(i));
-      grid.appendChild(b);
-    });
-    const empties = Math.max(0, 6 - list.length);
-    for (let k = 0; k < empties; k++) {
-      const i = list.length + k;
-      const b = document.createElement("button");
-      b.type = "button"; b.className = "polaroid empty";
-      b.style.setProperty("--tilt", TILTS[i % TILTS.length] + "deg");
-      b.setAttribute("aria-label", "Empty frame. Add a photo");
-      b.innerHTML = `<span class="frame"><span class="ph"><svg viewBox="-30 -30 60 60" aria-hidden="true">${flowerHead(["sunflower","daisy","tulipY","tulipP"][i % 4])}</svg>a photo goes here</span></span><span class="cap"></span>`;
-      $(".cap", b).textContent = PLACEHOLDER_CAPS[i % PLACEHOLDER_CAPS.length];
-      b.addEventListener("click", () => $("#photoInput").click());
-      grid.appendChild(b);
-    }
-  }
-  $("#photoInput").addEventListener("change", (e) => {
-    [...e.target.files].forEach(f => {
-      if (!f.type.startsWith("image/")) return;
-      added.push({ src: URL.createObjectURL(f), cap: "A moment I love" });
-    });
-    e.target.value = "";
-    renderPhotos();
-  });
-  const lb = $("#lightbox"); let lbIdx = 0;
+  /* ---------------- Photos + lightbox ---------------- */
+  const lb = $("#lightbox"); let lbList = [], lbIdx = 0;
   function showLb(i) {
-    const list = allPhotos(); if (!list.length) return;
-    lbIdx = (i + list.length) % list.length;
-    $("#lbImg").src = list[lbIdx].src; $("#lbImg").alt = list[lbIdx].cap || "A photo";
-    $("#lbCap").textContent = list[lbIdx].cap || "";
-    const multi = list.length > 1;
+    lbIdx = (i + lbList.length) % lbList.length;
+    const sn = lbList[lbIdx], img = $("img", sn);
+    $("#lbImg").src = img.currentSrc || img.src; $("#lbImg").alt = img.alt;
+    $("#lbCap").textContent = $(".cap", sn).textContent;
+    const multi = lbList.length > 1;
     $("#lbPrev").hidden = !multi; $("#lbNext").hidden = !multi;
   }
-  function openLightbox(i) { showLb(i); lb.showModal(); $("#lbClose").focus(); }
+  document.addEventListener("click", (e) => {
+    const sn = e.target.closest && e.target.closest(".snap");
+    if (!sn) return;
+    lbList = $$(".snap", sn.closest(".panel") || document);
+    showLb(lbList.indexOf(sn)); lb.showModal(); $("#lbClose").focus();
+  });
   $("#lbClose").addEventListener("click", () => lb.close());
   $("#lbPrev").addEventListener("click", () => showLb(lbIdx - 1));
   $("#lbNext").addEventListener("click", () => showLb(lbIdx + 1));
   lb.addEventListener("click", (e) => { if (e.target === lb) lb.close(); });
   lb.addEventListener("keydown", (e) => {
+    if (lbList.length < 2) return;
     if (e.key === "ArrowRight") { e.preventDefault(); showLb(lbIdx + 1); }
     if (e.key === "ArrowLeft") { e.preventDefault(); showLb(lbIdx - 1); }
   });
-  renderPhotos();
 
   /* ---------------- 3. Why You're the Best ---------------- */
   const ICONS = {
@@ -1093,19 +1021,20 @@ const PHOTOS = [
     yellow: `<svg viewBox="-30 -30 60 60" aria-hidden="true">${flowerHead("sunflower")}</svg>`
   };
   const REASONS = [
-    ["lunch", "Lunch, delivered", "You've brought me lunch more times than I can count, and every single one felt like a hug in a container."],
-    ["help", "Always there to help", "Every time I've asked for help, you've said yes before I even finished asking."],
-    ["projects", "My biggest fan", "You love every project I make, even the half-finished ones, and that's a big reason I keep making them."],
-    ["kids", "Kids first, always", "You've always put us first, quietly, without ever once making it feel like a sacrifice."],
-    ["food", "Excellent taste in food", "If you say a place is good, it's good. Your taste has never let me down."],
-    ["yellow", "Sunshine yellow", "You love yellow, and it makes sense. You're the brightest thing in any room."]
+    ["lunch", "cards.jpg", "center", "Lunch, delivered", "You've brought me lunch more times than I can count, and every single one felt like a hug in a container."],
+    ["help", "baseball.jpg", "center 30%", "Always there to help", "Every time I've asked for help, you've said yes before I even finished asking."],
+    ["projects", "opening-night.jpg", "center 30%", "My biggest fan", "You love every project I make, even the half-finished ones, and that's a big reason I keep making them."],
+    ["kids", "boat.jpg", "center 30%", "Kids first, always", "You've always put us first, quietly, without ever once making it feel like a sacrifice."],
+    ["food", "dressed-up.jpg", "center 35%", "Excellent taste in food", "If you say a place is good, it's good. Your taste has never let me down."],
+    ["yellow", "big-smiles.jpg", "center 40%", "Sunshine yellow", "You love yellow, and it makes sense. You're the brightest thing in any room."]
   ];
   const whyGrid = $("#whyGrid");
-  REASONS.forEach(([icon, title, back]) => {
+  REASONS.forEach(([icon, photo, pos, title, back]) => {
     const b = document.createElement("button");
     b.type = "button"; b.className = "flip"; b.setAttribute("aria-pressed", "false");
-    b.innerHTML = `<span class="flip-inner"><span class="side f">${ICONS[icon]}<span class="t"></span><span class="tap" aria-hidden="true">tap to flip</span></span><span class="side b"></span></span>`;
-    $(".t", b).textContent = title; $(".side.b", b).textContent = back;
+    b.innerHTML = `<span class="flip-inner"><span class="side f">${ICONS[icon]}<span class="t"></span><span class="tap" aria-hidden="true">tap to flip</span></span><span class="side b"><img alt="" loading="lazy"><span class="bt"></span></span></span>`;
+    $(".t", b).textContent = title; $(".bt", b).textContent = back;
+    const im = $(".side.b img", b); im.src = "photos/" + photo; im.style.setProperty("--pos", pos);
     b.addEventListener("click", () => { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); syncFlipAll(); });
     whyGrid.appendChild(b);
   });
@@ -1488,14 +1417,14 @@ const PHOTOS = [
 
   /* ---------------- 10. What You've Given Me ---------------- */
   const GIVEN = [
-    "You taught me that showing up is its own kind of love.",
+    ["You taught me that showing up is its own kind of love.", "showing-up.jpg", "The family together at an event", "Showing up, like always", "center 45%"],
     "The lunches. Every single one. You never made it seem like a big deal, and that's exactly what made it one.",
     "When I ask for help, you don't ask why. You just ask what I need.",
-    "You taught me to be proud of what I make, because you were always proud of it first.",
+    ["You taught me to be proud of what I make, because you were always proud of it first.", "championship.jpg", "Mom and Myles with family and a championship trophy", "Championship day", "center 40%"],
     "The way you pick out the perfect card, every time, for everyone.",
     "Flowers on the table, the dogs at your feet, something good to eat. That's what home looks like to me.",
     "You taught me that kindness doesn't have to be loud.",
-    "You've put us first so many times that I'm sure I never noticed them all. I'm noticing now.",
+    ["You've put us first so many times that I'm sure I never noticed them all. I'm noticing now.", "football.jpg", "Mom and Myles with family on the football field", "Right there on the sideline", "center 40%"],
     "You taught me how to take care of people, mostly by taking such good care of me.",
     "And the way you show up, every time, for every one of us. I'll always remember that.",
   ];
@@ -1508,7 +1437,19 @@ const PHOTOS = [
       givenList.innerHTML = ""; shown = 0;
     }
     const li = document.createElement("li");
-    li.textContent = GIVEN[shown]; li.className = "newest";
+    const g = GIVEN[shown];
+    li.className = "newest";
+    if (Array.isArray(g)) {
+      const [text, src, alt, cap, pos] = g;
+      li.appendChild(document.createTextNode(text));
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "snap";
+      b.style.setProperty("--tilt", (shown % 2 ? 2 : -2) + "deg"); b.style.setProperty("--pos", pos);
+      b.setAttribute("aria-label", "View photo: " + cap);
+      b.innerHTML = `<img alt=""><span class="cap"></span>`;
+      $("img", b).src = "photos/" + src; $("img", b).alt = alt; $(".cap", b).textContent = cap;
+      li.appendChild(b);
+    } else li.textContent = g;
     givenList.appendChild(li); shown++;
     if (shown === GIVEN.length) {
       const t = document.createElement("li"); t.className = "thanks newest"; t.textContent = "Thank you, Mom.";
