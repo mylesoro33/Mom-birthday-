@@ -399,75 +399,6 @@
   .wish-card p { margin: .3rem 0 0; }
   .wish-card.done { background: var(--butter); animation: bubble .45s cubic-bezier(.3,1.6,.5,1); }
 
-  /* ---------- 7. The New Ride ---------- */
-  .road-box {
-    border: var(--line) solid var(--ink); border-radius: 16px; overflow: hidden;
-    box-shadow: var(--shadow-sm); background: #fbe7a6; margin: 14px 0 16px;
-  }
-  .road-box svg { width: 100%; height: auto; }
-  .loop { animation: scroll-x 9s linear infinite; animation-play-state: paused; }
-  .loop.mid { animation-duration: 3.2s; }
-  .lane { animation: lane .45s linear infinite; animation-play-state: paused; }
-  .wheel-spin { transform-box: fill-box; transform-origin: center; animation: spin .5s linear infinite; animation-play-state: paused; }
-  .car-body { animation: bob .5s ease-in-out infinite alternate; animation-play-state: paused; }
-  .driving .loop, .driving .lane, .driving .wheel-spin, .driving .car-body { animation-play-state: running; }
-  .cable { opacity: 0; transition: opacity .3s; }
-  .plugged .cable { opacity: 1; }
-  .bolt { opacity: 0; }
-  .plugged .bolt { opacity: 1; animation: glow .8s ease-in-out infinite alternate; }
-  @keyframes scroll-x { to { transform: translateX(-400px); } }
-  @keyframes lane { to { stroke-dashoffset: 44; } }
-  @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-1.5px); } }
-  .battery-row { display: grid; gap: 8px; margin-bottom: 14px; }
-  .battery-row .lbl { display: flex; justify-content: space-between; font: 700 .95rem/1 var(--sans); }
-  .battery {
-    height: 30px; border: var(--line) solid var(--ink); border-radius: 10px; background: var(--paper);
-    position: relative; overflow: hidden; margin-right: 10px;
-  }
-  .battery-shell { position: relative; }
-  .battery-shell::after {
-    content: ""; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-    width: 9px; height: 14px; background: var(--ink); border-radius: 0 4px 4px 0;
-  }
-  .battery .fill {
-    height: 100%; width: 40%;
-    background: repeating-linear-gradient(-45deg, #9fd36a 0 10px, #8cc456 10px 20px);
-    border-right: 2px solid var(--ink);
-    transition: width .2s linear;
-  }
-  .battery .fill.low { background: repeating-linear-gradient(-45deg, #ffb36b 0 10px, #ffa14f 10px 20px); }
-  .ride-note {
-    font: 700 1.55rem/1.25 var(--hand); margin: 18px 0 0; padding: 12px 16px;
-    background: var(--butter-soft); border-left: 5px solid var(--butter-deep); border-radius: 0 12px 12px 0;
-  }
-  .copilot {
-    display: inline-block; margin: 16px 0 0; padding: .6rem 1rem;
-    background: var(--paper); border: 2px solid var(--ink); border-radius: 14px;
-    box-shadow: 2px 2px 0 var(--ink); font: 500 .98rem/1.4 var(--sans);
-  }
-  .ride-extras { display: grid; gap: 18px; margin-top: 18px; }
-  @media (min-width: 640px) { .ride-extras { grid-template-columns: 1.25fr 1fr; align-items: start; } }
-  .spec {
-    background: var(--paper); border: var(--line) solid var(--ink); border-radius: 14px;
-    box-shadow: var(--shadow-sm); padding: 14px 16px 10px; min-width: 0;
-  }
-  .spec h3 { font-size: 1.3rem; margin-bottom: .55rem; }
-  .spec dl { margin: 0; display: grid; grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr); }
-  .spec dt, .spec dd { padding: .5rem 0; border-top: 2px dashed rgba(74,44,23,.25); }
-  .spec dt {
-    font: 700 .74rem/1.45 var(--sans); letter-spacing: .08em; text-transform: uppercase;
-    color: var(--ink-soft); padding-right: .75rem; padding-top: .62rem;
-  }
-  .spec dd { margin: 0; font-weight: 600; }
-  .review {
-    margin: 0; background: var(--butter); border: var(--line) solid var(--ink); border-radius: 14px;
-    box-shadow: var(--shadow-sm); padding: 14px 16px; transform: rotate(1.2deg);
-  }
-  .review .stars { margin: 0; font-size: 1.4rem; letter-spacing: .12em; color: var(--ink); }
-  .review blockquote { margin: .35rem 0 .6rem; font: 400 1.3rem/1.3 var(--serif); }
-  .review figcaption { font: 700 1.25rem/1.2 var(--hand); color: var(--ink-soft); }
-  .status { font-weight: 600; color: var(--ink-soft); min-height: 1.6em; margin: 10px 0 0; }
-
   /* ---------- 9. 1969 ---------- */
   .timeline { list-style: none; margin: 18px 0 0; padding: 0 0 0 8px; position: relative; }
   .timeline::before {
@@ -691,25 +622,7 @@
         <p id="wishText">Take a breath. Take your time.</p>
       </div>
       <div class="row center"><button class="btn ghost" type="button" id="relight">Light them again</button></div>
-    </section>
-
-    <!-- 7. THE NEW RIDE -->
-    <section class="panel" id="p-ride" role="tabpanel" aria-labelledby="t-ride" data-title="The New Ride" hidden>
-      <h2>Enjoy the new ride</h2>
-      <div class="road-box" id="roadBox"></div>
-      <div class="battery-row">
-        <div class="battery-shell">
-          <div class="battery" role="progressbar" aria-label="Battery charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40" id="battery">
-            <div class="fill" id="batteryFill"></div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <button class="btn" type="button" id="plugIn" aria-pressed="false">Plug in</button>
-        <button class="btn" type="button" id="drive" aria-pressed="false">Drive</button>
-      </div>
-      <div class="photo-spot spot-pair" data-spot="ride"></div>
-      <p class="sr-only" id="rideStatus" aria-live="polite"></p>
+      <div class="photo-spot spot-pair" data-spot="wish"></div>
     </section>
 
     <!-- 9. 1969 -->
@@ -788,7 +701,7 @@
    PHOTOS: files live in the images/ folder next to index.html.
    Each photo is placed on a page by its "spot":
      card, why-work, why-help, why-hobbies, why-kids, why-better,
-     pup-brown, pup-black, pups, ride, given-1 ... given-9, note
+     pup-brown, pup-black, pups, wish, given-1 ... given-9, note
    A photo that fails to load is removed automatically, and an
    empty spot disappears. Optional: pos shifts the crop,
    tall: true uses a portrait frame.
@@ -803,8 +716,8 @@ const PHOTOS = [
   { src: "images/photo16.jpg", spot: "pup-brown",  alt: "The brown pup" },
   { src: "images/photo15.jpg", spot: "pup-black",  alt: "The black pup", pos: "center 30%" },
   { src: "images/photo14.jpg", spot: "pups",       alt: "Both pups on the stairs", pos: "center 65%", tall: true },
-  { src: "images/photo7.jpg",  spot: "ride",       alt: "Mom, Myles and family heading out on a trip" },
-  { src: "images/photo12.jpg", spot: "ride",       alt: "The family by a plane" },
+  { src: "images/photo7.jpg",  spot: "wish",       alt: "Mom, Myles and family heading out on a trip" },
+  { src: "images/photo12.jpg", spot: "wish",       alt: "The family by a plane" },
   { src: "images/photo13.jpg", spot: "given-1",    alt: "Mom, Myles and family at an event", pos: "center 45%" },
   { src: "images/photo2.jpg",  spot: "given-3",    alt: "Mom and Myles with a deck of cards" },
   { src: "images/photo9.jpg",  spot: "given-5",    alt: "Mom, Myles and family on the football field", pos: "center 40%" },
@@ -1299,100 +1212,6 @@ const PHOTOS = [
     candleEls.forEach((c, i) => { c.classList.remove("out"); c.setAttribute("aria-label", `Candle ${i + 1}, lit. Blow it out.`); });
     updateWish();
   });
-
-  /* ---------------- 7. The New Ride ---------------- */
-  (function buildRoad() {
-    const tree = (x, s = 1) => `<g transform="translate(${x} 150) scale(${s})"><rect x="-3" y="-22" width="6" height="22" fill="#8a5426" stroke="${INK}" stroke-width="2.5"/><circle cy="-34" r="17" fill="#8cc456" stroke="${INK}" stroke-width="2.5"/></g>`;
-    const hills = (o) => `<path d="M${o},150 Q${o + 60},96 ${o + 130},140 T${o + 260},132 T${o + 400},150Z" fill="#c4e08f" stroke="${INK}" stroke-width="3"/>`;
-    let mids = "";
-    [30, 150, 250, 340].forEach(x => { mids += tree(x, .9) + tree(x + 400, .9); });
-    $("#roadBox").innerHTML = `
-    <svg viewBox="0 0 400 220" role="img" aria-label="A shiny new car on a sunny road">
-      <rect width="400" height="220" fill="#fbe7a6"/>
-      <circle cx="320" cy="48" r="22" fill="#ffd447" stroke="${INK}" stroke-width="3"/>
-      <g class="loop">${hills(0)}${hills(400)}</g>
-      <g class="loop mid">${mids}</g>
-      <rect x="0" y="150" width="400" height="70" fill="#6d5a4c" stroke="${INK}" stroke-width="3"/>
-      <rect x="0" y="150" width="400" height="8" fill="#8f7b6b"/>
-      <line class="lane" x1="0" y1="190" x2="400" y2="190" stroke="#ffe27a" stroke-width="5" stroke-dasharray="26 18"/>
-      <g transform="translate(18 150)">
-        <rect x="0" y="-52" width="22" height="52" rx="5" fill="#fffdf6" stroke="${INK}" stroke-width="3"/>
-        <rect x="5" y="-44" width="12" height="9" rx="2" fill="#9fd36a" stroke="${INK}" stroke-width="2"/>
-        <path class="bolt" d="M12,-30 l-5,10 h5 l-3,9 8,-12 h-5 l3,-7z" fill="#ffd447" stroke="${INK}" stroke-width="1.5"/>
-      </g>
-      <path class="cable" d="M40,128 C60,150 80,150 92,128" stroke="${INK}" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <g transform="translate(86 172)">
-        <g class="car-body">
-          <path d="M8,-22 C6,-36 18,-42 34,-44 L70,-48 C92,-70 124,-76 154,-71 C174,-67 190,-56 202,-46 C216,-43 224,-36 224,-26 L224,-18 C224,-14 220,-12 216,-12 L10,-12 C5,-12 4,-17 8,-22Z" fill="#fbf7ef" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/>
-          <path d="M80,-49 C98,-64 120,-68 142,-66 L146,-49Z" fill="#9cc7d9" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M153,-66 C170,-63 182,-56 192,-48 L153,-48Z" fill="#9cc7d9" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M92,-58 L104,-62" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-          <path d="M149,-48 V-14 M86,-48 C84,-38 84,-26 88,-14" stroke="${INK}" stroke-width="2" fill="none" opacity=".55"/>
-          <rect x="112" y="-40" width="14" height="3.5" rx="1.75" fill="${INK}" opacity=".6"/>
-          <rect x="164" y="-40" width="14" height="3.5" rx="1.75" fill="${INK}" opacity=".6"/>
-          <path d="M206,-38 C214,-38 220,-35 222,-31 L208,-31Z" fill="#fff6c7" stroke="${INK}" stroke-width="2"/>
-          <path d="M8,-30 L22,-32 L22,-26 L7,-25Z" fill="#e85d5d" stroke="${INK}" stroke-width="2"/>
-          <path d="M30,-20 H200" stroke="#ffd447" stroke-width="3" stroke-linecap="round"/>
-        </g>
-        ${[56, 180].map(x => `
-          <g transform="translate(${x} -12)">
-            <circle r="20" fill="#2d211a" stroke="${INK}" stroke-width="3"/>
-            <g class="wheel-spin">
-              <circle r="11" fill="#d9d2c7" stroke="${INK}" stroke-width="2.5"/>
-              <path d="M0,-10V10M-10,0H10M-7,-7L7,7M7,-7L-7,7" stroke="${INK}" stroke-width="2"/>
-              <circle r="3" fill="${INK}"/>
-            </g>
-          </g>`).join("")}
-      </g>
-    </svg>`;
-  })();
-  const roadBox = $("#roadBox");
-  const plugBtn = $("#plugIn"), driveBtn = $("#drive"), fill = $("#batteryFill"), status = $("#rideStatus");
-  let battery = 40, plugged = false, driving = false, timer = 0;
-  function renderBattery() {
-    const b = Math.round(battery);
-    fill.style.width = b + "%"; fill.classList.toggle("low", b <= 20);
-    $("#battery").setAttribute("aria-valuenow", b);
-  }
-  function loop() {
-    clearInterval(timer); timer = 0;
-    if (!plugged && !driving) return;
-    timer = setInterval(() => {
-      if (plugged) {
-        battery = Math.min(100, battery + 2);
-        if (battery >= 100) { clearInterval(timer); timer = 0; status.textContent = "Fully charged."; }
-      } else if (driving) {
-        battery = Math.max(0, battery - 0.5);
-        if (battery <= 0) { setDrive(false); status.textContent = "Out of charge."; }
-      }
-      renderBattery();
-    }, plugged ? 60 : 250);
-  }
-  function setPlug(on) {
-    plugged = on;
-    roadBox.classList.toggle("plugged", on);
-    plugBtn.setAttribute("aria-pressed", on); plugBtn.textContent = on ? "Unplug" : "Plug in";
-    if (on) {
-      if (driving) setDrive(false, true);
-      if (reduced()) battery = 100, renderBattery();
-      status.textContent = battery >= 100 ? "Fully charged." : "Charging.";
-    } else status.textContent = "Unplugged.";
-    loop();
-  }
-  function setDrive(on, silent) {
-    driving = on;
-    roadBox.classList.toggle("driving", on);
-    driveBtn.setAttribute("aria-pressed", on); driveBtn.textContent = on ? "Park" : "Drive";
-    if (on) {
-      if (plugged) { plugged = false; roadBox.classList.remove("plugged"); plugBtn.setAttribute("aria-pressed", "false"); plugBtn.textContent = "Plug in"; }
-      if (battery <= 0) { setDrive(false); status.textContent = "Out of charge. Plug in first."; return; }
-      status.textContent = "Driving.";
-    } else if (!silent) status.textContent = "Parked.";
-    loop();
-  }
-  plugBtn.addEventListener("click", () => setPlug(!plugged));
-  driveBtn.addEventListener("click", () => setDrive(!driving));
-  renderBattery();
 
   /* ---------------- 10. What You've Given Me ---------------- */
   const GIVEN = [
