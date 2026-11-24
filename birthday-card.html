@@ -458,40 +458,6 @@
   .review figcaption { font: 700 1.25rem/1.2 var(--hand); color: var(--ink-soft); }
   .status { font-weight: 600; color: var(--ink-soft); min-height: 1.6em; margin: 10px 0 0; }
 
-  /* ---------- 8. Dinner Tonight ---------- */
-  .wheel-area { position: relative; width: min(100%, 360px); margin: 14px auto 10px; }
-  .wheel-area .pointer {
-    position: absolute; top: -6px; left: 50%; transform: translateX(-50%); z-index: 2;
-    width: 0; height: 0; border-left: 16px solid transparent; border-right: 16px solid transparent;
-    border-top: 30px solid var(--ink);
-    filter: drop-shadow(0 -2px 0 var(--ink));
-  }
-  .wheel-area .pointer::after {
-    content: ""; position: absolute; left: -10px; top: -26px;
-    border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 19px solid var(--rose);
-  }
-  .wheel-disc { border-radius: 50%; box-shadow: 6px 6px 0 var(--ink); }
-  .wheel-svg {
-    width: 100%; height: auto; border-radius: 50%;
-    transition: transform 4.6s cubic-bezier(.15,.75,.15,1);
-  }
-  .spin-btn {
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-    width: 78px; height: 78px; border-radius: 50%;
-    background: var(--paper); border: var(--line) solid var(--ink); box-shadow: 3px 3px 0 var(--ink);
-    font: 400 1.05rem/1 var(--serif);
-  }
-  .spin-btn:active { transform: translate(calc(-50% + 2px), calc(-50% + 2px)); box-shadow: 1px 1px 0 var(--ink); }
-  .spin-btn[disabled] { cursor: default; }
-  .result-card {
-    max-width: 440px; margin: 18px auto 0; text-align: center;
-    background: var(--butter-soft); border: var(--line) solid var(--ink); border-radius: 16px;
-    padding: 14px 16px; box-shadow: var(--shadow-sm);
-  }
-  .result-card .pick { font: 400 1.7rem/1.15 var(--serif); margin: .1rem 0 .3rem; }
-  .result-card p { margin: 0; }
-  .result-card.landed { background: var(--butter); animation: bubble .45s cubic-bezier(.3,1.6,.5,1); }
-
   /* ---------- 9. 1969 ---------- */
   .timeline { list-style: none; margin: 18px 0 0; padding: 0 0 0 8px; position: relative; }
   .timeline::before {
@@ -733,25 +699,6 @@
       </div>
       <div class="photo-spot spot-pair" data-spot="ride"></div>
       <p class="sr-only" id="rideStatus" aria-live="polite"></p>
-    </section>
-
-    <!-- 8. DINNER TONIGHT -->
-    <section class="panel" id="p-dinner" role="tabpanel" aria-labelledby="t-dinner" data-title="Dinner Tonight" hidden>
-      <div class="center">
-        <p class="kicker">tonight, on us</p>
-        <h2>Dinner Tonight</h2>
-        <p class="lede">We're going out tonight to celebrate you. Let the wheel weigh in, but you always get the final say.</p>
-      </div>
-      <div class="wheel-area">
-        <span class="pointer" aria-hidden="true"></span>
-        <div class="wheel-disc"><svg class="wheel-svg" id="wheel" viewBox="-110 -110 220 220" aria-hidden="true"></svg></div>
-        <button class="spin-btn" type="button" id="spin" aria-label="Spin the dinner wheel">Spin</button>
-      </div>
-      <div class="result-card" id="result" aria-live="polite">
-        <p class="hand" style="font-size:1.3rem;font-weight:700">The wheel is waiting</p>
-        <p class="pick" id="pick">Where to?</p>
-        <p id="pickNote">Italian, steak, dessert first, and more. Tap Spin to see what tonight brings.</p>
-      </div>
     </section>
 
     <!-- 9. 1969 -->
@@ -1435,57 +1382,6 @@ const PHOTOS = [
   plugBtn.addEventListener("click", () => setPlug(!plugged));
   driveBtn.addEventListener("click", () => setDrive(!driving));
   renderBattery();
-
-  /* ---------------- 8. Dinner wheel ---------------- */
-  const CUISINES = [
-    ["Italian", "Pasta, warm bread, and a long, happy dinner."],
-    ["Steakhouse", "A proper birthday dinner, cooked just how you like it."],
-    ["Mexican", "Chips, salsa, and something delicious with extra lime."],
-    ["Burgers", "Classic, cozy, and always a good call."],
-    ["Thai", "Warm, bright, and full of flavor."],
-    ["Mediterranean", "Fresh, colorful, and everything made for sharing."],
-    ["Dessert first", "It's your birthday. You make the rules tonight."]
-  ];
-  const SEG_COLORS = ["#ffd447", "#fff1b8", "#ffd8a8", "#fbd6df"];
-  (function buildWheel() {
-    const R = 100, n = CUISINES.length, step = 360 / n;
-    const pt = (deg, r) => [r * Math.sin(deg * Math.PI / 180), -r * Math.cos(deg * Math.PI / 180)];
-    let s = `<circle r="${R + 6}" fill="${INK}"/>`;
-    CUISINES.forEach(([name], i) => {
-      const a0 = i * step, a1 = (i + 1) * step, mid = a0 + step / 2;
-      const [x0, y0] = pt(a0, R), [x1, y1] = pt(a1, R);
-      s += `<path d="M0,0 L${x0.toFixed(2)},${y0.toFixed(2)} A${R},${R} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)}Z" fill="${SEG_COLORS[i % 4]}" stroke="${INK}" stroke-width="2.5"/>`;
-      s += `<g transform="rotate(${mid})"><text x="0" y="-62" transform="rotate(-90 0 -62)" text-anchor="middle" dominant-baseline="central" font-family="Figtree, sans-serif" font-weight="800" font-size="${name.length > 10 ? 8.2 : 9.5}" fill="${INK}">${name}</text></g>`;
-    });
-    for (let i = 0; i < n; i++) { const [x, y] = pt(i * step, R + 1); s += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="3" fill="#ffe27a" stroke="${INK}" stroke-width="1.5"/>`; }
-    $("#wheel").innerHTML = s;
-  })();
-  const wheel = $("#wheel"), spinBtn = $("#spin"), resultCard = $("#result");
-  let rot = 0, spinning = false;
-  spinBtn.addEventListener("click", () => {
-    if (spinning) return;
-    spinning = true; spinBtn.disabled = true;
-    resultCard.classList.remove("landed");
-    $("#pick").textContent = "Spinning…"; $("#pickNote").textContent = "Here we go.";
-    const n = CUISINES.length, step = 360 / n;
-    const idx = Math.floor(Math.random() * n);
-    const target = idx * step + step / 2 + rand(-step * .35, step * .35);
-    const want = (360 - target) % 360;
-    const cur = ((rot % 360) + 360) % 360;
-    rot += 360 * 6 + ((want - cur + 360) % 360);
-    wheel.style.transform = `rotate(${rot}deg)`;
-    const done = () => {
-      spinning = false; spinBtn.disabled = false;
-      const [name, note] = CUISINES[idx];
-      resultCard.querySelector(".hand").textContent = "Tonight's pick";
-      $("#pick").textContent = name;
-      $("#pickNote").textContent = note + " (Your call, though. It's your night.)";
-      resultCard.classList.add("landed");
-      confetti(resultCard, 130);
-    };
-    if (reduced()) setTimeout(done, 50);
-    else setTimeout(done, 4700);
-  });
 
   /* ---------------- 10. What You've Given Me ---------------- */
   const GIVEN = [
