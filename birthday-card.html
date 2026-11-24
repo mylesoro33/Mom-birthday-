@@ -714,12 +714,9 @@
 
     <!-- 7. THE NEW RIDE -->
     <section class="panel" id="p-ride" role="tabpanel" aria-labelledby="t-ride" data-title="The New Ride" hidden>
-      <p class="kicker">brand new, all yours</p>
-      <h2>The New Ride</h2>
-      <p class="lede">Happy birthday to you and your brand-new Tesla. Smooth, quiet, quick, and, most importantly, I helped pick it out.</p>
+      <h2>Enjoy the new ride</h2>
       <div class="road-box" id="roadBox"></div>
       <div class="battery-row">
-        <div class="lbl"><span>Battery</span><span id="batteryPct">40%</span></div>
         <div class="battery-shell">
           <div class="battery" role="progressbar" aria-label="Battery charge" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40" id="battery">
             <div class="fill" id="batteryFill"></div>
@@ -730,27 +727,7 @@
         <button class="btn" type="button" id="plugIn" aria-pressed="false">Plug in</button>
         <button class="btn" type="button" id="drive" aria-pressed="false">Drive</button>
       </div>
-      <p class="status" id="rideStatus" aria-live="polite">Parked in the driveway, looking good. (Myles would like you to know he helped pick it out.)</p>
-      <p class="copilot"><b>Co-pilot:</b> Myles (picked it out, very involved, zero driving privileges)</p>
-      <div class="ride-extras">
-        <section class="spec" aria-labelledby="specTitle">
-          <h3 id="specTitle">Official spec sheet</h3>
-          <dl>
-            <dt>Owner</dt><dd>Mindy Orozco</dd>
-            <dt>Color</dt><dd>Chosen with Myles's expert input</dd>
-            <dt>Seats chosen</dt><dd>All of them</dd>
-            <dt>Range</dt><dd>Dinner and back, as many times as you want</dd>
-            <dt>Driver</dt><dd>You. Only you.</dd>
-            <dt>Myles's contribution</dt><dd>Moral support</dd>
-          </dl>
-        </section>
-        <figure class="review">
-          <p class="stars" role="img" aria-label="Five out of five stars">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
-          <blockquote>&ldquo;Five stars. The guy who helped pick it out is a genius.&rdquo;</blockquote>
-          <figcaption>Verified review, from someone who is definitely not Myles</figcaption>
-        </figure>
-      </div>
-      <p class="ride-note">All jokes aside, you work so hard for everyone else. I'm really glad you finally got something that's just for you.</p>
+      <p class="sr-only" id="rideStatus" aria-live="polite"></p>
     </section>
 
     <!-- 8. DINNER TONIGHT -->
@@ -768,7 +745,7 @@
       <div class="result-card" id="result" aria-live="polite">
         <p class="hand" style="font-size:1.3rem;font-weight:700">The wheel is waiting</p>
         <p class="pick" id="pick">Where to?</p>
-        <p id="pickNote">Italian, sushi, steak, and more. Tap Spin to see what tonight brings.</p>
+        <p id="pickNote">Italian, steak, dessert first, and more. Tap Spin to see what tonight brings.</p>
       </div>
     </section>
 
@@ -1407,7 +1384,6 @@ const PHOTOS = [
   function renderBattery() {
     const b = Math.round(battery);
     fill.style.width = b + "%"; fill.classList.toggle("low", b <= 20);
-    $("#batteryPct").textContent = b + "%";
     $("#battery").setAttribute("aria-valuenow", b);
   }
   function loop() {
@@ -1416,10 +1392,10 @@ const PHOTOS = [
     timer = setInterval(() => {
       if (plugged) {
         battery = Math.min(100, battery + 2);
-        if (battery >= 100) { clearInterval(timer); timer = 0; status.textContent = "Fully charged. Myles takes partial credit."; }
+        if (battery >= 100) { clearInterval(timer); timer = 0; status.textContent = "Fully charged."; }
       } else if (driving) {
         battery = Math.max(0, battery - 0.5);
-        if (battery <= 0) { setDrive(false); status.textContent = "Out of charge. Your co-pilot suggests plugging in. Thanks, Myles."; }
+        if (battery <= 0) { setDrive(false); status.textContent = "Out of charge."; }
       }
       renderBattery();
     }, plugged ? 60 : 250);
@@ -1431,8 +1407,8 @@ const PHOTOS = [
     if (on) {
       if (driving) setDrive(false, true);
       if (reduced()) battery = 100, renderBattery();
-      status.textContent = battery >= 100 ? "Fully charged. Myles takes partial credit." : "Charging up. Myles is supervising.";
-    } else status.textContent = "Unplugged and ready to roll.";
+      status.textContent = battery >= 100 ? "Fully charged." : "Charging.";
+    } else status.textContent = "Unplugged.";
     loop();
   }
   function setDrive(on, silent) {
@@ -1441,9 +1417,9 @@ const PHOTOS = [
     driveBtn.setAttribute("aria-pressed", on); driveBtn.textContent = on ? "Park" : "Drive";
     if (on) {
       if (plugged) { plugged = false; roadBox.classList.remove("plugged"); plugBtn.setAttribute("aria-pressed", "false"); plugBtn.textContent = "Plug in"; }
-      if (battery <= 0) { setDrive(false); status.textContent = "Needs a little charge first. Try Plug in."; return; }
-      status.textContent = "Cruising. Your co-pilot is giving directions nobody asked for.";
-    } else if (!silent) status.textContent = "Parked. Nailed it.";
+      if (battery <= 0) { setDrive(false); status.textContent = "Out of charge. Plug in first."; return; }
+      status.textContent = "Driving.";
+    } else if (!silent) status.textContent = "Parked.";
     loop();
   }
   plugBtn.addEventListener("click", () => setPlug(!plugged));
@@ -1453,7 +1429,6 @@ const PHOTOS = [
   /* ---------------- 8. Dinner wheel ---------------- */
   const CUISINES = [
     ["Italian", "Pasta, warm bread, and a long, happy dinner."],
-    ["Sushi", "Fresh, pretty, and a little fancy. Perfect for the occasion."],
     ["Steakhouse", "A proper birthday dinner, cooked just how you like it."],
     ["Mexican", "Chips, salsa, and something delicious with extra lime."],
     ["Burgers", "Classic, cozy, and always a good call."],
