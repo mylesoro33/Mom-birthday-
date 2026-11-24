@@ -228,14 +228,9 @@
   @keyframes sway { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
   @keyframes nudge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 
-  /* ---------- 2. Photos ---------- */
-  .photo-grid {
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px;
-    padding: 8px 4px 4px;
-  }
-  @media (min-width: 700px) { .photo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 20px; } }
+  /* ---------- Photos, placed throughout the pages ---------- */
   .snap {
-    display: block; width: 100%; padding: 8px 8px 0; text-align: center;
+    display: block; width: 100%; padding: 8px 8px 22px;
     background: #fff; border: 2px solid var(--ink); border-radius: 4px;
     box-shadow: 4px 4px 0 rgba(74,44,23,.85);
     transform: rotate(var(--tilt, -2deg)); transition: transform .25s ease;
@@ -243,14 +238,27 @@
   }
   .snap:hover { transform: rotate(0deg) scale(1.03); z-index: 2; }
   .snap img {
-    display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+    display: block; width: 100%; max-width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
     border: 2px solid var(--ink); background: var(--butter-soft);
   }
-  .snap .cap { display: block; font: 700 1.25rem/1.15 var(--hand); padding: .5rem .2rem .6rem; min-height: 2.6em; }
+  .snap.tall img { aspect-ratio: 4 / 5; }
   .snap::after {
     content: ""; position: absolute; top: -10px; left: 50%; width: 62px; height: 20px;
     transform: translateX(-50%) rotate(-3deg);
     background: rgba(255,212,71,.75); border: 1px solid rgba(74,44,23,.25);
+  }
+  .spot-solo { max-width: 290px; margin: 28px auto 6px; }
+  .spot-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 560px; margin: 26px auto 4px; padding: 0 4px; }
+  .spot-card { max-width: 230px; margin: 4px auto 18px; }
+  .pup .photo-spot { width: 100%; max-width: 170px; margin-top: 18px; }
+  .given-list li .photo-spot { max-width: 250px; margin: 16px auto 6px; }
+  .spot-letter { max-width: 240px; margin: 22px auto -34px; position: relative; z-index: 3; }
+  .why-photo { display: block; width: 100%; }
+  .why-grid .flip:last-child:nth-child(odd) .why-photo { max-width: 260px; margin: 0 auto; }
+  @media (min-width: 640px) { .why-grid .flip:last-child:nth-child(odd) .why-photo { max-width: none; } }
+  .why-photo img {
+    display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+    border: 2px solid var(--ink); border-radius: 8px;
   }
 
   dialog.lightbox {
@@ -261,7 +269,7 @@
   dialog.lightbox::backdrop { background: rgba(74,44,23,.7); }
   .lightbox img { width: 100%; max-height: 70vh; object-fit: contain; border: 2px solid var(--ink); background: var(--cream); }
   .lightbox .lb-cap { font: 700 1.7rem/1.2 var(--hand); text-align: center; margin: .6rem 0 .5rem; }
-  .lightbox .lb-bar { display: flex; justify-content: space-between; gap: 8px; }
+  .lightbox .lb-bar { margin-top: 12px;  display: flex; justify-content: space-between; gap: 8px; }
 
   /* ---------- 3. Why You're the Best ---------- */
   .why-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 18px; }
@@ -291,7 +299,7 @@
   .flip .side.f { background: var(--butter); }
   .flip:nth-child(2n) .side.f { background: var(--butter-soft); }
   .flip:nth-child(3n) .side.f { background: var(--peach); }
-  .flip .side.b { background: var(--paper); transform: rotateY(180deg); font: 600 1rem/1.45 var(--sans); padding: 16px 14px; }
+  .flip .side.b { background: var(--paper); transform: rotateY(180deg); font: 600 .94rem/1.4 var(--sans); padding: 10px 10px 14px; justify-content: flex-start; }
   .flip .side svg { width: 52px; height: 52px; }
   .flip .t { font: 400 1.12rem/1.2 var(--serif); }
   .flip .tap { font: 700 1.05rem/1 var(--hand); color: var(--ink-soft); }
@@ -601,6 +609,7 @@
             <span class="hint" aria-hidden="true">Tap to open</span>
           </div>
           <div class="face inside" id="cardInside">
+            <div class="photo-spot spot-card" data-spot="card"></div>
             <p class="salute">Mom,</p>
             <p>Happy birthday to the hardest-working person I know, and the first person I call when I need help.</p>
             <p>You give so much of yourself to all of us. Today is your day to be celebrated for every bit of it.</p>
@@ -612,14 +621,6 @@
       <div class="row center card-actions">
         <button class="btn" id="openCard" type="button" aria-pressed="false">Open the card</button>
       </div>
-    </section>
-
-    <!-- 2. PHOTOS (the tab hides itself if there are no photos) -->
-    <section class="panel" id="p-photos" role="tabpanel" aria-labelledby="t-photos" data-title="Photos" hidden>
-      <p class="kicker">a few favorites</p>
-      <h2>Photos</h2>
-      <p class="lede">Some of my favorite days with you. Tap any photo to see it up close.</p>
-      <div class="photo-grid" id="photoGrid"></div>
     </section>
 
     <!-- 3. WHY YOU'RE THE BEST -->
@@ -691,10 +692,12 @@
         <div class="pup">
           <p class="bubble" id="bubbleBrown" aria-live="polite">Happy birthday! We love you so much.</p>
           <button class="dog-btn" type="button" id="dogBrown" aria-label="Pet the brown pup" data-dog="brown"></button>
+          <div class="photo-spot" data-spot="pup-brown"></div>
         </div>
         <div class="pup">
           <p class="bubble" id="bubbleBlack" aria-live="polite">You're our favorite person in the world.</p>
           <button class="dog-btn" type="button" id="dogBlack" aria-label="Pet the black pup" data-dog="black"></button>
+          <div class="photo-spot" data-spot="pup-black"></div>
         </div>
       </div>
       <div class="row">
@@ -704,6 +707,7 @@
         </button>
         <span class="pill" aria-live="polite"><b id="treatCount">0</b> treats given</span>
       </div>
+      <div class="photo-spot spot-solo" data-spot="pups"></div>
     </section>
 
     <!-- 6. MAKE A WISH -->
@@ -738,6 +742,7 @@
         <button class="btn" type="button" id="plugIn" aria-pressed="false">Plug in</button>
         <button class="btn" type="button" id="drive" aria-pressed="false">Drive</button>
       </div>
+      <div class="photo-spot spot-pair" data-spot="ride"></div>
       <p class="sr-only" id="rideStatus" aria-live="polite"></p>
     </section>
 
@@ -805,6 +810,7 @@
     <section class="panel" id="p-note" role="tabpanel" aria-labelledby="t-note" data-title="A Note" hidden>
       <p class="kicker">the long version</p>
       <h2>A Note</h2>
+      <div class="photo-spot spot-letter" data-spot="note"></div>
       <article class="letter" aria-label="A letter from Myles">
         <span class="clip" aria-hidden="true"></span>
         <p>Dear Mom,</p>
@@ -820,7 +826,6 @@
 
   <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
     <img id="lbImg" alt="">
-    <p class="lb-cap" id="lbCap"></p>
     <div class="lb-bar">
       <button class="btn ghost" type="button" id="lbPrev" aria-label="Previous photo">&larr; Prev</button>
       <button class="btn" type="button" id="lbClose">Close</button>
@@ -834,27 +839,30 @@
 <script>
 /* =========================================================
    PHOTOS: files live in the images/ folder next to index.html.
-   Add, remove, or reorder entries here. If this list is empty,
-   the Photos tab is hidden. A photo that fails to load is
-   removed automatically. Optional: pos shifts the crop.
+   Each photo is placed on a page by its "spot":
+     card, why-work, why-help, why-hobbies, why-kids, why-better,
+     pup-brown, pup-black, pups, ride, given-1 ... given-9, note
+   A photo that fails to load is removed automatically, and an
+   empty spot disappears. Optional: pos shifts the crop,
+   tall: true uses a portrait frame.
    ========================================================= */
 const PHOTOS = [
-  { src: "images/photo1.jpg",  cap: "Fall days with you" },
-  { src: "images/photo2.jpg",  cap: "Always up for a game of cards" },
-  { src: "images/photo3.jpg",  cap: "Opening night, and you were there", pos: "center 35%" },
-  { src: "images/photo4.jpg",  cap: "My first fans", pos: "center 30%" },
-  { src: "images/photo5.jpg",  cap: "Out on the water", pos: "center 25%" },
-  { src: "images/photo6.jpg",  cap: "Big smiles", pos: "center 40%" },
-  { src: "images/photo7.jpg",  cap: "Off on an adventure" },
-  { src: "images/photo8.jpg",  cap: "Championship day" },
-  { src: "images/photo9.jpg",  cap: "Right there on the sideline" },
-  { src: "images/photo10.jpg", cap: "All dressed up", pos: "center 40%" },
-  { src: "images/photo11.jpg", cap: "Our trip to D.C.", pos: "center 70%" },
-  { src: "images/photo12.jpg", cap: "Taking off together" },
-  { src: "images/photo13.jpg", cap: "Showing up, like always", pos: "center 50%" },
-  { src: "images/photo14.jpg", cap: "Your two shadows", pos: "center 65%" },
-  { src: "images/photo15.jpg", cap: "Riding along", pos: "center 30%" },
-  { src: "images/photo16.jpg", cap: "Waiting for you" },
+  { src: "images/photo1.jpg",  spot: "card",       alt: "Myles and Mom on a fall day" },
+  { src: "images/photo10.jpg", spot: "why-work",   alt: "Mom, Myles and family dressed up", pos: "center 35%" },
+  { src: "images/photo4.jpg",  spot: "why-help",   alt: "Mom with Myles at a baseball game", pos: "center 30%" },
+  { src: "images/photo3.jpg",  spot: "why-hobbies", alt: "Mom with Myles after a show", pos: "center 30%" },
+  { src: "images/photo5.jpg",  spot: "why-kids",   alt: "Mom with her kids on a boat", pos: "center 30%" },
+  { src: "images/photo6.jpg",  spot: "why-better", alt: "Mom and Myles at a character meet-up", pos: "center 40%" },
+  { src: "images/photo16.jpg", spot: "pup-brown",  alt: "The brown pup" },
+  { src: "images/photo15.jpg", spot: "pup-black",  alt: "The black pup", pos: "center 30%" },
+  { src: "images/photo14.jpg", spot: "pups",       alt: "Both pups on the stairs", pos: "center 65%", tall: true },
+  { src: "images/photo7.jpg",  spot: "ride",       alt: "Mom, Myles and family heading out on a trip" },
+  { src: "images/photo12.jpg", spot: "ride",       alt: "The family by a plane" },
+  { src: "images/photo13.jpg", spot: "given-1",    alt: "Mom, Myles and family at an event", pos: "center 45%" },
+  { src: "images/photo2.jpg",  spot: "given-3",    alt: "Mom and Myles with a deck of cards" },
+  { src: "images/photo9.jpg",  spot: "given-5",    alt: "Mom, Myles and family on the football field", pos: "center 40%" },
+  { src: "images/photo8.jpg",  spot: "given-6",    alt: "Mom, Myles and family with a championship trophy", pos: "center 40%" },
+  { src: "images/photo11.jpg", spot: "note",       alt: "Mom, Myles and family on the Capitol steps", pos: "center 70%", tall: true },
 ];
 
 (() => {
@@ -964,31 +972,33 @@ const PHOTOS = [
   })();
 
   /* ---------------- Tabs ---------------- */
-  /* ---------------- 2. Photos ---------------- */
-  const photoGrid = $("#photoGrid");
+  /* ---------------- Photos ---------------- */
   const TILTS = [-3, 2.5, -1.5, 3, -2.5, 1.5, -2, 2];
-  function dropPhotosTab() {
-    const p = $("#p-photos"); if (!p) return;
-    const keep = p.hidden ? keyOf(panels[current]) : "card";
-    p.remove(); buildTabs();
-    select(Math.max(0, panels.findIndex(x => keyOf(x) === keep)), { updateHash: false });
+  // Puts every photo listed for a spot into that spot. Inside the flip cards
+  // (which are already buttons) photos are plain images; elsewhere they are
+  // polaroids that open the lightbox.
+  function fillSpot(spotEl) {
+    const list = PHOTOS.filter(p => p.spot === spotEl.dataset.spot);
+    if (!list.length) { spotEl.remove(); return; }
+    const plain = spotEl.classList.contains("why-photo");
+    list.forEach((ph, i) => {
+      const img = document.createElement("img");
+      img.alt = ph.alt || "";
+      if (ph.pos) img.style.objectPosition = ph.pos;
+      let item = img;
+      if (!plain) {
+        item = document.createElement("button");
+        item.type = "button"; item.className = "snap" + (ph.tall ? " tall" : "");
+        item.style.setProperty("--tilt", TILTS[(PHOTOS.indexOf(ph) + i) % TILTS.length] + "deg");
+        item.setAttribute("aria-label", "View photo larger");
+        item.appendChild(img);
+      }
+      img.onerror = () => { item.remove(); if (!spotEl.children.length) spotEl.remove(); };
+      img.src = ph.src;
+      spotEl.appendChild(item);
+    });
   }
-  PHOTOS.forEach((ph, i) => {
-    const b = document.createElement("button");
-    b.type = "button"; b.className = "snap";
-    b.style.setProperty("--tilt", TILTS[i % TILTS.length] + "deg");
-    b.setAttribute("aria-label", "View photo: " + ph.cap);
-    const img = document.createElement("img");
-    img.alt = ph.cap;
-    if (ph.pos) img.style.objectPosition = ph.pos;
-    img.onerror = () => { b.remove(); if (!photoGrid.children.length) dropPhotosTab(); };
-    img.src = ph.src;
-    const cap = document.createElement("span");
-    cap.className = "cap"; cap.textContent = ph.cap;
-    b.append(img, cap);
-    photoGrid.appendChild(b);
-  });
-  if (!PHOTOS.length) $("#p-photos").remove();
+  $$(".photo-spot[data-spot]").forEach(fillSpot);
 
   /* ---------------- Tabs ---------------- */
   const tablist = $("#tabs");
@@ -1069,7 +1079,6 @@ const PHOTOS = [
     lbIdx = (i + lbList.length) % lbList.length;
     const sn = lbList[lbIdx], img = $("img", sn);
     $("#lbImg").src = img.currentSrc || img.src; $("#lbImg").alt = img.alt;
-    $("#lbCap").textContent = $(".cap", sn).textContent;
     const multi = lbList.length > 1;
     $("#lbPrev").hidden = !multi; $("#lbNext").hidden = !multi;
   }
@@ -1108,8 +1117,9 @@ const PHOTOS = [
   REASONS.forEach(([icon, title, back]) => {
     const b = document.createElement("button");
     b.type = "button"; b.className = "flip"; b.setAttribute("aria-pressed", "false");
-    b.innerHTML = `<span class="flip-inner"><span class="side f">${ICONS[icon]}<span class="t"></span><span class="tap" aria-hidden="true">tap to flip</span></span><span class="side b"></span></span>`;
-    $(".t", b).textContent = title; $(".side.b", b).textContent = back;
+    b.innerHTML = `<span class="flip-inner"><span class="side f">${ICONS[icon]}<span class="t"></span><span class="tap" aria-hidden="true">tap to flip</span></span><span class="side b"><span class="photo-spot why-photo" data-spot="why-${icon}"></span><span class="bt"></span></span></span>`;
+    $(".t", b).textContent = title; $(".bt", b).textContent = back;
+    fillSpot($(".why-photo", b));
     b.addEventListener("click", () => { b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); syncFlipAll(); });
     whyGrid.appendChild(b);
   });
@@ -1510,6 +1520,9 @@ const PHOTOS = [
     }
     const li = document.createElement("li");
     li.textContent = GIVEN[shown]; li.className = "newest";
+    const spot = document.createElement("div");
+    spot.className = "photo-spot"; spot.dataset.spot = "given-" + (shown + 1);
+    li.appendChild(spot); fillSpot(spot);
     givenList.appendChild(li); shown++;
     if (shown === GIVEN.length) {
       const t = document.createElement("li"); t.className = "thanks newest"; t.textContent = "Thank you, Mom.";
